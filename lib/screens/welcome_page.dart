@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'login_page.dart'; // Ensure this file exists
-// import 'registration_page.dart'; // Ensure this file exists
+import 'register_page.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_page';
@@ -53,6 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFE1F7F5),
       body: Stack(
         children: <Widget>[
           // Background image at the lower part of the screen
@@ -96,12 +97,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         child: AnimatedTextKit(
                           animatedTexts: [
                             FadeAnimatedText(
-                              'Welcome to FerryNav',
+                              'Welcome to FerryNav\nYour Online Ferry Booker',
                               duration: Duration(seconds: 2),
-                            ),
-                            FadeAnimatedText(
-                              'Your Online Ferry Booker',
-                              duration: Duration(seconds: 2),
+                              textAlign: TextAlign.center,
+                              textStyle: const TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.black54,
+                              )
                             ),
                           ],
                           isRepeatingAnimation: false,
@@ -114,18 +116,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       )
                     else ...[
                       Text(
-                        'Welcome to FerryNav',
+                        'Welcome to FerryNav\nYour Online Ferry Booker',
                         style: const TextStyle(
                           fontSize: 20.0,
                           color: Colors.black54,
                         ),
-                      ),
-                      Text(
-                        'Your Online Ferry Booker',
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black54,
-                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ],
@@ -143,7 +139,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   title: 'Register',
                   colour: Color(0xFF0E46A3),
                   onPressed: () {
-                    // Navigator.pushNamed(context, RegistrationPage.id);
+                    Navigator.pushNamed(context, RegisterPage.id);
                   },
                   icon: Icon(Icons.app_registration, color: Colors.white), // Add the icon here
                 ),
