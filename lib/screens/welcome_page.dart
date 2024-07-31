@@ -15,6 +15,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation animation;
+  bool animationComplete = false;
 
   @override
   void initState() {
@@ -32,6 +33,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller.addListener(() {
       setState(() {});
     });
+
+    // Set a timer to update the animationComplete flag
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          animationComplete = true;
+        });
+      }
+    });
   }
 
   @override
@@ -43,59 +53,104 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: animation.value,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Column(
+      body: Stack(
+        children: <Widget>[
+          // Background image at the lower part of the screen
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              child: Image.asset(
+                'assets/welcome_bg.png',
+                fit: BoxFit.cover,
+                height: 300.0, // Adjust the height as needed
+              ),
+            ),
+          ),
+          // Main content
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: ClipOval(
-                    child: Container(
-                      child: Image.asset('assets/FerryNav.png'),
-                      height: 200.0,
-                      width: 200.0,
+                Column(
+                  children: <Widget>[
+                    Hero(
+                      tag: 'logo',
+                      child: ClipOval(
+                        child: Container(
+                          child: Image.asset('assets/FerryNav_Logo.png'),
+                          height: 200.0,
+                          width: 200.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 20.0),
-                DefaultTextStyle(
-                  style: const TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                  ),
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      TypewriterAnimatedText('Ferry Nav'),
+                    SizedBox(height: 10.0), // Add spacing between image and text
+                    if (!animationComplete)
+                      DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black54,
+                        ),
+                        child: AnimatedTextKit(
+                          animatedTexts: [
+                            FadeAnimatedText(
+                              'Welcome to FerryNav',
+                              duration: Duration(seconds: 2),
+                            ),
+                            FadeAnimatedText(
+                              'Your Online Ferry Booker',
+                              duration: Duration(seconds: 2),
+                            ),
+                          ],
+                          isRepeatingAnimation: false,
+                          onFinished: () {
+                            setState(() {
+                              animationComplete = true;
+                            });
+                          },
+                        ),
+                      )
+                    else ...[
+                      Text(
+                        'Welcome to FerryNav',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(
+                        'Your Online Ferry Booker',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black54,
+                        ),
+                      ),
                     ],
-                  ),
+                  ],
+                ),
+                SizedBox(height: 80.0), // Spacing between text and buttons
+                RoundedButton(
+                  title: 'Log In',
+                  colour: Color(0xFF0E46A3),
+                  onPressed: () {
+                    Navigator.pushNamed(context, LoginPage.id);
+                  },
+                  icon: Icon(Icons.person, color: Colors.white), // Add the icon here
+                ),
+                RoundedButton(
+                  title: 'Register',
+                  colour: Color(0xFF0E46A3),
+                  onPressed: () {
+                    // Navigator.pushNamed(context, RegistrationPage.id);
+                  },
+                  icon: Icon(Icons.app_registration, color: Colors.white), // Add the icon here
                 ),
               ],
             ),
-            SizedBox(
-              height: 48.0,
-            ),
-            RoundedButton(
-              title: 'Log In',
-              colour: Color(0xFF0E46A3),
-              onPressed: () {
-                Navigator.pushNamed(context, LoginPage.id);
-              },
-            ),
-            RoundedButton(
-              title: 'Register',
-              colour: Color(0xFF0E46A3),
-              onPressed: () {
-                // Navigator.pushNamed(context, RegistrationPage.id);
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

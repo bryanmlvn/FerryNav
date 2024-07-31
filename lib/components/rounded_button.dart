@@ -1,21 +1,19 @@
+// rounded_button.dart
+
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  final Color colour;
   final String title;
+  final Color colour;
   final VoidCallback onPressed;
+  final Icon? icon; // Optional icon parameter
 
-  const RoundedButton({
-    Key? key, // Add the key parameter here
-    required this.title,
-    required this.colour,
-    required this.onPressed,
-  }) : super(key: key); // Pass the key to the superclass
+  RoundedButton({required this.title, required this.colour, required this.onPressed, this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 4.0),
       child: Material(
         elevation: 5.0,
         color: colour,
@@ -24,9 +22,18 @@ class RoundedButton extends StatelessWidget {
           onPressed: onPressed,
           minWidth: 200.0,
           height: 42.0,
-          child: Text(
-            title,
-            style: const TextStyle(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (icon != null) ...[
+                icon!,
+                SizedBox(width: 10.0),
+              ],
+              Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         ),
       ),
