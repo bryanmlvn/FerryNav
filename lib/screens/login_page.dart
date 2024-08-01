@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ferrynav/auth.dart';
 
-class LoginPage extends StatelessWidget {
-  static const String id = 'login_page'; // Add this
+class LoginPage extends StatefulWidget {
+  static const String id = 'login_page';
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final Auth _auth = Auth();
+
+  String? errorMessage;
+
+  void _login() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // Print success message to the console
+      // Navigate to the next screen after successful login
+      // Navigator.pushNamed(context, '/nextScreen');
+      print("Login successful");
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+      // Print error message to the console
+      print("Login failed: $errorMessage");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body:
-      Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,13 +68,19 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 50.0,
             ),
+            if (errorMessage != null)
+              Text(
+                errorMessage!,
+                style: TextStyle(color: Colors.red),
+              ),
+            const SizedBox(
+              height: 10.0,
+            ),
             Column(
               children: <Widget>[
                 TextField(
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    // Do something with the user input.
-                  },
                   decoration: const InputDecoration(
                     hintText: 'Enter your email',
                     contentPadding:
@@ -67,10 +104,8 @@ class LoginPage extends StatelessWidget {
                   height: 8.0,
                 ),
                 TextField(
+                  controller: _passwordController,
                   obscureText: true,
-                  onChanged: (value) {
-                    // Do something with the user input.
-                  },
                   decoration: const InputDecoration(
                     hintText: 'Enter your password',
                     contentPadding:
@@ -100,7 +135,7 @@ class LoginPage extends StatelessWidget {
               child: RoundedButton(
                 title: 'Log in',
                 colour: Colors.lightBlueAccent,
-                onPressed: () {},
+                onPressed: _login,
               ),
             )
           ],
