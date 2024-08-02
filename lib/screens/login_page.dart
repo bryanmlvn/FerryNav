@@ -45,12 +45,15 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ClipOval(
-              child: Image.asset(
-                'assets/FerryNav.png',
-                width: 200.0,
-                height: 200.0,
-                fit: BoxFit.cover,
+            Hero(
+              tag: 'logo',
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/FerryNav.png',
+                  width: 200.0,
+                  height: 200.0,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
