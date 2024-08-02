@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795469088626",
+    "project_id": "ferrynavios",
+    "storage_bucket": "ferrynavios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795469088626:android:f65b597b7a5ecae3947feb",
+        "android_client_info": {
+          "package_name": "com.example.ferrynav"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZLeC0GVf_PBd0ZCbE--NEvQbLgb2_fAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
