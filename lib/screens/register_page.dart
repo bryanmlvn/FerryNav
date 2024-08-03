@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
+import 'package:ferrynav/auth.dart';
+import 'package:ferrynav/user_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String id = 'register_page';
@@ -18,13 +20,22 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isLoading = false;
   String _errorMessage = '';
 
-  void _register() {
+  final Auth _auth = Auth();
+  final FirestoreService _firestoreService = FirestoreService();
+
+  void _register() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _phoneController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       setState(() {
+        _isLoading = false;
         _errorMessage = 'All fields are required';
       });
       return;
@@ -32,14 +43,35 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (_passwordController.text != _confirmPasswordController.text) {
       setState(() {
+        _isLoading = false;
         _errorMessage = 'Passwords do not match';
       });
       return;
     }
 
-    setState(() {
-      _errorMessage = 'Validation successful! Proceed with registration logic.';
-    });
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      await _firestoreService.addUserDetails(
+        uid: _auth.currentUser!.uid,
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: _phoneController.text,
+      );
+
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Registration successful!';
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = e.toString();
+      });
+    }
   }
 
   @override
@@ -192,7 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
             const SizedBox(
-              height: 15s.0,
+              height: 15.0,
             ),
             Text(
               _errorMessage,
