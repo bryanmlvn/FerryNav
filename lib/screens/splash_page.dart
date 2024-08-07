@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'welcome_page.dart';  // Ensure you have the correct import for WelcomeScreen
+
+class SplashScreen extends StatefulWidget {
+  static const String id = 'splash_screen';
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToWelcome();
+  }
+
+  _navigateToWelcome() async {
+    await Future.delayed(Duration(seconds: 3), () {});  // Simulate a delay
+    Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFF06305A),
+      body: Center(
+        child: Image.asset('assets/4.png'),
+      ),
+    );
+  }
+}

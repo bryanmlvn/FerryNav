@@ -10,12 +10,51 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final Auth _auth = Auth();
 
   String? errorMessage;
+
+  late AnimationController _controller;
+  late Animation _animation;
+  bool animationComplete = false;
+  double buttonOpacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 350),  // Set duration to 0.5 seconds
+      vsync: this,
+    );
+
+    _animation = ColorTween(begin: Colors.blueGrey, end: Color(0xFFE1F7F5))
+        .animate(_controller);
+
+    _controller.forward();
+    _controller.addListener(() {
+      setState(() {});
+    });
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          animationComplete = true;
+          buttonOpacity = 1.0;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _login() async {
     try {
@@ -23,15 +62,11 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Print success message to the console
-      // Navigate to the next screen after successful login
-      // Navigator.pushNamed(context, '/nextScreen');
       print("Login successful");
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
       });
-      // Print error message to the console
       print("Login failed: $errorMessage");
     }
   }
@@ -39,108 +74,117 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFD2FBF7),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 138.0),
             Hero(
               tag: 'logo',
               child: ClipOval(
-                child: Image.asset(
-                  'assets/FerryNav.png',
-                  width: 200.0,
-                  height: 200.0,
-                  fit: BoxFit.cover,
+                child: AnimatedOpacity(
+                  opacity: animationComplete ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  child: Image.asset(
+                    'assets/3.png',
+                    width: 250.0,
+                    height: 250.0,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            const Text(
-              'Welcome to FerryNav\nYour only Ferry Booker',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            const SizedBox(height: 20.0),
+            AnimatedOpacity(
+              opacity: animationComplete ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+              child: const Text(
+                'Welcome to FerryNav\nYour only Ferry Booker',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black54,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 50.0,
-            ),
+            const SizedBox(height: 60.0),
             if (errorMessage != null)
               Text(
                 errorMessage!,
                 style: TextStyle(color: Colors.red),
               ),
-            const SizedBox(
-              height: 10.0,
-            ),
+            const SizedBox(height: 10.0),
             Column(
               children: <Widget>[
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                AnimatedOpacity(
+                  opacity: animationComplete ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  child: TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your email',
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Color(0xFF06305A), width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Color(0xFF06305A), width: 3.0),
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your password',
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                const SizedBox(height: 8.0),
+                AnimatedOpacity(
+                  opacity: animationComplete ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your password',
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Color(0xFF06305A), width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Color(0xFF06305A), width: 3.0),
+                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 70.0,
-            ),
-            Container(
-              width: double.infinity,
-              child: RoundedButton(
-                title: 'Log in',
-                colour: Colors.lightBlueAccent,
-                onPressed: _login,
+            const SizedBox(height: 70.0),
+            AnimatedOpacity(
+              opacity: buttonOpacity,
+              duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+              child: Container(
+                width: double.infinity,
+                child: RoundedButton(
+                  title: 'Log in',
+                  colour: Color(0xFF219EBC),
+                  onPressed: _login,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
