@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
+import 'package:ferrynav/styles/style.dart';
 
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
@@ -16,54 +17,16 @@ String kodeFerry = "FerryNav 02";
 int seatCapacity = 200;
 
 //REFACTORING (EXTRACT METHOD OR WIDGET)
-TextStyle h1Style = const TextStyle(
-  fontSize: 25.0,
-  color: Colors.black,
-  fontWeight: FontWeight.w800,
-);
-
-TextStyle h2Style = const TextStyle(
-  fontSize: 18.0,
-  color: Colors.white,
-  fontWeight: FontWeight.w700,
-);
-
-TextStyle h3Style = const TextStyle(
-  fontSize: 15.0,
-  color: Colors.black,
-  fontWeight: FontWeight.w600,
-);
-
-TextStyle h4Style = const TextStyle(
-  fontSize: 15.0,
-  color: Colors.black,
-  fontWeight: FontWeight.w500,
-);
-
-TextStyle desc1Style(Color color) {
-  return TextStyle(
-    fontSize: 14.0,
-    color: color,
-    fontWeight: FontWeight.w400,
-  );
-}
-
-BoxDecoration commonBoxDecoration(Color color) {
-  return BoxDecoration(
-    color: color,
-    borderRadius: BorderRadius.circular(15.0),
-  );
-}
 
 //CODE HERE BROTHAA
-class TicketDetails extends StatefulWidget {
+class TicketDetailsPage extends StatefulWidget {
   static const String id = 'ticketdetails_page';
 
   @override
-  State<TicketDetails> createState() => _TicketDetailsState();
+  State<TicketDetailsPage> createState() => _TicketDetailsPageState();
 }
 
-class _TicketDetailsState extends State<TicketDetails> {
+class _TicketDetailsPageState extends State<TicketDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +43,7 @@ class _TicketDetailsState extends State<TicketDetails> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
-              decoration: commonBoxDecoration(containerColor),
+              decoration: commonBoxDecorationStyle(containerColor),
               constraints: const BoxConstraints(
                 minWidth: double.infinity,
               ),
@@ -120,7 +83,7 @@ class _TicketDetailsState extends State<TicketDetails> {
             Container(
               padding: const EdgeInsets.all(16.0),
               margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-              decoration: commonBoxDecoration(appBarColor),
+              decoration: commonBoxDecorationStyle(appBarColor),
               constraints: const BoxConstraints(
                 minWidth: double.infinity,
               ),
@@ -171,7 +134,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     margin: const EdgeInsets.only(top: 15.0, bottom: 5.0),
-                    decoration: commonBoxDecoration(containerColor),
+                    decoration: commonBoxDecorationStyle(containerColor),
                     constraints: const BoxConstraints(
                       minWidth: double.infinity,
                     ),
