@@ -5,6 +5,7 @@ import 'package:ferrynav/screens/splash_page.dart';
 import 'package:ferrynav/screens/welcome_page.dart';
 import 'package:ferrynav/screens/login_page.dart';
 import 'package:ferrynav/screens/register_page.dart';
+import 'package:ferrynav/screens/home_page.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
 
 void main() async {
@@ -24,6 +25,7 @@ class FerryNavApp extends StatelessWidget {
         LoginPage.id: (context) => LoginPage(),
         RegisterPage.id: (context) => RegisterPage(),
         TicketDetails.id: (context) => TicketDetails(),
+        HomePage.id: (context) => HomePage(),
       },
     );
   }
