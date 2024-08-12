@@ -1,3 +1,4 @@
+import 'package:ferrynav/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(milliseconds: 350),  // Set duration to 0.5 seconds
+      duration: Duration(milliseconds: 350), // Set duration to 0.5 seconds
       vsync: this,
     );
 
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage>
         password: _passwordController.text.trim(),
       );
       print("Login successful");
+      Navigator.pushNamed(context, HomePage.id);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -85,7 +87,8 @@ class _LoginPageState extends State<LoginPage>
               child: ClipOval(
                 child: AnimatedOpacity(
                   opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  duration: Duration(
+                      milliseconds: 500), // Set duration to 0.5 seconds
                   child: Image.asset(
                     'assets/3.png',
                     width: 250.0,
@@ -98,7 +101,8 @@ class _LoginPageState extends State<LoginPage>
             const SizedBox(height: 20.0),
             AnimatedOpacity(
               opacity: animationComplete ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+              duration:
+                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
               child: const Text(
                 'Welcome to FerryNav\nYour only Ferry Booker',
                 style: TextStyle(
@@ -119,25 +123,26 @@ class _LoginPageState extends State<LoginPage>
               children: <Widget>[
                 AnimatedOpacity(
                   opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  duration: Duration(
+                      milliseconds: 500), // Set duration to 0.5 seconds
                   child: TextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       hintText: 'Enter your email',
-                      contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            BorderSide(color: Color(0xFF06305A), width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            BorderSide(color: Color(0xFF06305A), width: 3.0),
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                     ),
@@ -146,25 +151,26 @@ class _LoginPageState extends State<LoginPage>
                 const SizedBox(height: 8.0),
                 AnimatedOpacity(
                   opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                  duration: Duration(
+                      milliseconds: 500), // Set duration to 0.5 seconds
                   child: TextField(
                     controller: _passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
                       hintText: 'Enter your password',
-                      contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            BorderSide(color: Color(0xFF06305A), width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            BorderSide(color: Color(0xFF06305A), width: 3.0),
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                     ),
@@ -175,7 +181,8 @@ class _LoginPageState extends State<LoginPage>
             const SizedBox(height: 70.0),
             AnimatedOpacity(
               opacity: buttonOpacity,
-              duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+              duration:
+                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
               child: Container(
                 width: double.infinity,
                 child: RoundedButton(

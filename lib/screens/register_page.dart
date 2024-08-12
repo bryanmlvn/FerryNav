@@ -1,3 +1,4 @@
+import 'package:ferrynav/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/auth.dart';
@@ -10,12 +11,14 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderStateMixin {
+class _RegisterPageState extends State<RegisterPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _isLoading = false;
   String _errorMessage = '';
 
@@ -29,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(milliseconds: 350),  // Set duration to 0.5 seconds
+      duration: Duration(milliseconds: 350), // Set duration to 0.5 seconds
       vsync: this,
     );
 
@@ -96,6 +99,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
       setState(() {
         _isLoading = false;
         _errorMessage = 'Registration successful!';
+        Navigator.pushNamed(context, LoginPage.id);
       });
     } catch (e) {
       setState(() {
@@ -128,7 +132,8 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                 child: ClipOval(
                   child: AnimatedOpacity(
                     opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                    duration: Duration(
+                        milliseconds: 500), // Set duration to 0.5 seconds
                     child: Image.asset(
                       'assets/3.png',
                       width: 250.0,
@@ -157,16 +162,19 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                       controller: _nameController,
                       decoration: const InputDecoration(
                         hintText: 'Enter your name',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                       ),
@@ -181,16 +189,19 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         hintText: 'Enter your email',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                       ),
@@ -205,16 +216,19 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                       keyboardType: TextInputType.phone,
                       decoration: const InputDecoration(
                         hintText: 'Enter your phone number',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                       ),
@@ -229,16 +243,19 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                       obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Enter your password',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                       ),
@@ -253,16 +270,19 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                       obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Confirm your password',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                       ),

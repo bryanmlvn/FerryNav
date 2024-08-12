@@ -9,25 +9,44 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   String? _selectedDeparture;
   final List<String> _departure = [
-    'Select Departure Port', 'Batam', 'Durai', 'Hidayat Baru', 'Kuala Gaung', 'Moro',
-    'Pelangairan', 'Pulau Burung', 'Sei Guntung', 'Sembuang',
-    'Sungai Piring', 'Teluk Lanjut', 'Tembilahan',
+    'Select Departure Port',
+    'Batam',
+    'Durai',
+    'Hidayat Baru',
+    'Kuala Gaung',
+    'Moro',
+    'Pelangairan',
+    'Pulau Burung',
+    'Sei Guntung',
+    'Sembuang',
+    'Sungai Piring',
+    'Teluk Lanjut',
+    'Tembilahan',
   ];
 
   String? _selectedArrival;
   final List<String> _arrival = [
-    'Select Arrival Port', 'Batam', 'Durai', 'Hidayat Baru', 'Kuala Gaung', 'Moro',
-    'Pelangairan', 'Pulau Burung', 'Sei Guntung', 'Sembuang',
-    'Sungai Piring', 'Teluk Lanjut', 'Tembilahan',
+    'Select Arrival Port',
+    'Batam',
+    'Durai',
+    'Hidayat Baru',
+    'Kuala Gaung',
+    'Moro',
+    'Pelangairan',
+    'Pulau Burung',
+    'Sei Guntung',
+    'Sembuang',
+    'Sungai Piring',
+    'Teluk Lanjut',
+    'Tembilahan',
   ];
 
   String? _selectedSeat;
-  final List<String> _seat = [
-    'Select Seat', '1', '2', '3', '4', '5'
-  ];
+  final List<String> _seat = ['Select Seat', '1', '2', '3', '4', '5'];
 
   DateTime? _selectedDate;
 
@@ -47,7 +66,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     // Initialize AnimationController
     _controller = AnimationController(
-      duration: Duration(milliseconds: 350),  // Set duration to 0.35 seconds
+      duration: Duration(milliseconds: 350), // Set duration to 0.35 seconds
       vsync: this,
     );
 
@@ -90,7 +109,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }
   }
 
-
   void _login() {
     // Start the animation
     _controller.forward().whenComplete(() {
@@ -101,7 +119,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     // Navigate to Ticket Details page after animation completes
     if (animationComplete) {
-      Navigator.pushNamed(context, TicketDetails.id);
+      Navigator.pushNamed(context, TicketDetailsPage.id);
     }
   }
 
@@ -116,11 +134,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             return AppBar(
               title: Center(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min, // Make the row as small as its children
+                  mainAxisSize:
+                      MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(right: 8.0), // Space between image and title
+                      margin: const EdgeInsets.only(
+                          right: 8.0), // Space between image and title
                       child: Image.asset(
                         'assets/FerryNav-3.png',
                         width: 50.0,
@@ -142,16 +162,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           },
         ),
       ),
-
-
-
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 35.0,),
+            SizedBox(
+              height: 35.0,
+            ),
             AnimatedOpacity(
               opacity: containerOpacity,
-              duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+              duration:
+                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
@@ -181,17 +201,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         color: containerColor,
                       ),
                     ),
-                    SizedBox(height: 5.0), // Add some space between Text and Dropdown
+                    SizedBox(
+                        height:
+                            5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedDeparture,
                       onChanged: (String? newValue) {
-                        if (newValue != _departure[0]) { // Only update state if the new value is not the first item
+                        if (newValue != _departure[0]) {
+                          // Only update state if the new value is not the first item
                           setState(() {
                             _selectedDeparture = newValue;
                           });
                         }
                       },
-                      items: _departure.sublist(1).map<DropdownMenuItem<String>>((String location) {
+                      items: _departure
+                          .sublist(1)
+                          .map<DropdownMenuItem<String>>((String location) {
                         return DropdownMenuItem<String>(
                           value: location,
                           child: Text(
@@ -201,28 +226,38 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             ),
                           ),
                         );
-                      }).toList()..insert(0, DropdownMenuItem<String>(
-                        value: _departure[0],
-                        child: Text(
-                          _departure[0], // Display the first item
-                          style: TextStyle(
-                            color: Colors.grey, // Color for non-selectable item
-                          ),
-                        ),
-                      )),
+                      }).toList()
+                        ..insert(
+                            0,
+                            DropdownMenuItem<String>(
+                              value: _departure[0],
+                              child: Text(
+                                _departure[0], // Display the first item
+                                style: TextStyle(
+                                  color: Colors
+                                      .grey, // Color for non-selectable item
+                                ),
+                              ),
+                            )),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -243,17 +278,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         color: containerColor,
                       ),
                     ),
-                    SizedBox(height: 5.0), // Add some space between Text and Dropdown
+                    SizedBox(
+                        height:
+                            5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedArrival,
                       onChanged: (String? newValue) {
-                        if (newValue != _arrival[0]) { // Only update state if the new value is not the first item
+                        if (newValue != _arrival[0]) {
+                          // Only update state if the new value is not the first item
                           setState(() {
                             _selectedArrival = newValue;
                           });
                         }
                       },
-                      items: _arrival.sublist(1).map<DropdownMenuItem<String>>((String location) {
+                      items: _arrival
+                          .sublist(1)
+                          .map<DropdownMenuItem<String>>((String location) {
                         return DropdownMenuItem<String>(
                           value: location,
                           child: Text(
@@ -264,28 +304,37 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           ),
                         );
                       }).toList()
-                        ..insert(0, DropdownMenuItem<String>(
-                          value: _arrival[0],
-                          child: Text(
-                            _arrival[0], // Display the first item
-                            style: TextStyle(
-                              color: Colors.grey, // Color for non-selectable item
-                            ),
-                          ),
-                        )),
+                        ..insert(
+                            0,
+                            DropdownMenuItem<String>(
+                              value: _arrival[0],
+                              child: Text(
+                                _arrival[0], // Display the first item
+                                style: TextStyle(
+                                  color: Colors
+                                      .grey, // Color for non-selectable item
+                                ),
+                              ),
+                            )),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         hintText: 'Select Arrival', // Hint text
@@ -310,7 +359,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         color: containerColor,
                       ),
                     ),
-                    SizedBox(height: 5.0), // Add some space between Text and Date Picker
+                    SizedBox(
+                        height:
+                            5.0), // Add some space between Text and Date Picker
                     GestureDetector(
                       onTap: () => _selectDate(context),
                       child: AbsorbPointer(
@@ -318,21 +369,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           controller: TextEditingController(
                             text: _selectedDate == null
                                 ? 'Select Date'
-                                : '${_selectedDate!.toLocal()}'.split(' ')[0], // Format date
+                                : '${_selectedDate!.toLocal()}'
+                                    .split(' ')[0], // Format date
                           ),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white, // Text field background color
+                            fillColor:
+                                Colors.white, // Text field background color
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                              borderSide: BorderSide(
+                                  color: containerColor,
+                                  width: 3.0), // Border color and width
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                              borderSide: BorderSide(
+                                  color: containerColor,
+                                  width: 3.0), // Border color and width
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                              borderSide: BorderSide(
+                                  color: containerColor,
+                                  width: 3.0), // Border color and width
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             suffixIcon: Icon(
@@ -354,17 +413,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         color: containerColor,
                       ),
                     ),
-                    SizedBox(height: 5.0), // Add some space between Text and Dropdown
+                    SizedBox(
+                        height:
+                            5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedSeat,
                       onChanged: (String? newValue) {
-                        if (newValue != _seat[0]) { // Only update state if the new value is not the first item
+                        if (newValue != _seat[0]) {
+                          // Only update state if the new value is not the first item
                           setState(() {
                             _selectedSeat = newValue;
                           });
                         }
                       },
-                      items: _seat.sublist(1).map<DropdownMenuItem<String>>((String seat) {
+                      items: _seat
+                          .sublist(1)
+                          .map<DropdownMenuItem<String>>((String seat) {
                         return DropdownMenuItem<String>(
                           value: seat,
                           child: Text(
@@ -375,28 +439,37 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           ),
                         );
                       }).toList()
-                        ..insert(0, DropdownMenuItem<String>(
-                          value: _seat[0],
-                          child: Text(
-                            _seat[0], // Display the first item
-                            style: TextStyle(
-                              color: Colors.grey, // Color for non-selectable item
-                            ),
-                          ),
-                        )),
+                        ..insert(
+                            0,
+                            DropdownMenuItem<String>(
+                              value: _seat[0],
+                              child: Text(
+                                _seat[0], // Display the first item
+                                style: TextStyle(
+                                  color: Colors
+                                      .grey, // Color for non-selectable item
+                                ),
+                              ),
+                            )),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: containerColor, width: 3.0), // Border color and width
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -407,10 +480,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       isExpanded: true, // Make the dropdown menu full width
                     ),
 
-                    SizedBox(height: 50.0,),
+                    SizedBox(
+                      height: 50.0,
+                    ),
                     AnimatedOpacity(
                       opacity: buttonOpacity,
-                      duration: Duration(milliseconds: 500),  // Set duration to 0.5 seconds
+                      duration: Duration(
+                          milliseconds: 500), // Set duration to 0.5 seconds
                       child: Container(
                         width: double.infinity,
                         child: RoundedButton(
