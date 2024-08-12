@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
+import 'package:ferrynav/styles/style.dart';
 
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
@@ -15,14 +16,17 @@ String duration = "±5h 15m";
 String kodeFerry = "FerryNav 02";
 int seatCapacity = 200;
 
-class TicketDetails extends StatefulWidget {
+//REFACTORING (EXTRACT METHOD OR WIDGET)
+
+//CODE HERE BROTHAA
+class TicketDetailsPage extends StatefulWidget {
   static const String id = 'ticketdetails_page';
 
   @override
-  State<TicketDetails> createState() => _TicketDetailsState();
+  State<TicketDetailsPage> createState() => _TicketDetailsPageState();
 }
 
-class _TicketDetailsState extends State<TicketDetails> {
+class _TicketDetailsPageState extends State<TicketDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,69 +42,49 @@ class _TicketDetailsState extends State<TicketDetails> {
         child: Column(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
-              decoration: BoxDecoration(
-                color: containerColor,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              constraints: BoxConstraints(
+              margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
+              decoration: commonBoxDecorationStyle(containerColor),
+              constraints: const BoxConstraints(
                 minWidth: double.infinity,
               ),
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       '$cityFrom - $cityDestination',
-                      style: TextStyle(
-                          fontSize: 25.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w800),
+                      style: h1Style,
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
                           date,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: desc1Style(Colors.black),
                         ),
                         Text(
                           duration,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: desc1Style(Colors.black),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       '$remainingSeat Remaining seats',
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600),
+                      style: h3Style,
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-              decoration: BoxDecoration(
-                color: appBarColor,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              constraints: BoxConstraints(
+              decoration: commonBoxDecorationStyle(appBarColor),
+              constraints: const BoxConstraints(
                 minWidth: double.infinity,
               ),
               child: Column(
@@ -113,19 +97,11 @@ class _TicketDetailsState extends State<TicketDetails> {
                         children: <Widget>[
                           Text(
                             cityFrom,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: h2Style,
                           ),
                           Text(
                             '$pelabuhanFrom\n$timeFrom',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            style: desc1Style(Colors.white),
                           ),
                         ],
                       ),
@@ -143,34 +119,23 @@ class _TicketDetailsState extends State<TicketDetails> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Text(
-                            '$cityDestination',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            cityDestination,
+                            style: h2Style,
                           ),
                           Text(
                             '$pelabuhanDestination\n$timeDestination',
                             textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            style: desc1Style(Colors.white),
                           ),
                         ],
                       ),
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     margin: const EdgeInsets.only(top: 15.0, bottom: 5.0),
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    constraints: BoxConstraints(
+                    decoration: commonBoxDecorationStyle(containerColor),
+                    constraints: const BoxConstraints(
                       minWidth: double.infinity,
                     ),
                     child: Column(
@@ -178,13 +143,9 @@ class _TicketDetailsState extends State<TicketDetails> {
                       children: <Widget>[
                         Text(
                           kodeFerry,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),
+                          style: h3Style,
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors
                               .black, // You can customize the color of the divider
                           thickness:
@@ -194,22 +155,14 @@ class _TicketDetailsState extends State<TicketDetails> {
                         ),
                         Text(
                           'Ferry Specifications',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: desc1Style(Colors.black),
                         ),
-                        SizedBox(height: 3.0),
+                        const SizedBox(height: 3.0),
                         Text(
                           'Seat Capacity : $seatCapacity\nSeat Format : 1 seat/person',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: h4Style,
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors
                               .black, // You can customize the color of the divider
                           thickness:
@@ -219,16 +172,12 @@ class _TicketDetailsState extends State<TicketDetails> {
                         ),
                         Text(
                           'Facilities',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: desc1Style(Colors.black),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Column(
@@ -284,7 +233,7 @@ class _TicketDetailsState extends State<TicketDetails> {
         child: Container(
           decoration: BoxDecoration(
             color: containerColor,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20.0), // Adjust radius as needed
               topRight: Radius.circular(20.0), // Adjust radius as needed
             ),
@@ -296,8 +245,8 @@ class _TicketDetailsState extends State<TicketDetails> {
             crossAxisAlignment: CrossAxisAlignment
                 .center, // Center the Row's children vertically
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
+              const Padding(
+                padding: EdgeInsets.fromLTRB(
                     20, 0, 20, 10), // Adjust padding as needed
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,9 +287,9 @@ class _TicketDetailsState extends State<TicketDetails> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     minimumSize:
-                        Size(150, 40), // Set minimum size for the button
+                        const Size(150, 40), // Set minimum size for the button
                   ),
-                  child: Text(
+                  child: const Text(
                     'Continue',
                     style: TextStyle(
                       fontSize: 16.0,
