@@ -132,6 +132,7 @@ class _HomePageState extends State<HomePage>
           animation: _animation,
           builder: (context, child) {
             return AppBar(
+              automaticallyImplyLeading: false,
               title: Center(
                 child: Row(
                   mainAxisSize:
@@ -166,7 +167,7 @@ class _HomePageState extends State<HomePage>
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 35.0,
+              height: 15.0,
             ),
             AnimatedOpacity(
               opacity: containerOpacity,

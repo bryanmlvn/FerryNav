@@ -119,203 +119,206 @@ class _RegisterPageState extends State<RegisterPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD2FBF7),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: AnimatedOpacity(
-          opacity: animationComplete ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 500),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 138.0),
-              Hero(
-                tag: 'logo',
-                child: ClipOval(
-                  child: AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(
-                        milliseconds: 500), // Set duration to 0.5 seconds
-                    child: Image.asset(
-                      'assets/3.png',
-                      width: 250.0,
-                      height: 250.0,
-                      fit: BoxFit.cover,
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AnimatedOpacity(
+            opacity: animationComplete ? 1.0 : 0.0,
+            duration: Duration(milliseconds: 500),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 100.0),
+                Hero(
+                  tag: 'logo',
+                  child: ClipOval(
+                    child: AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(
+                          milliseconds: 500), // Set duration to 0.5 seconds
+                      child: Image.asset(
+                        'assets/3.png',
+                        width: 200.0,
+                        height: 200.0,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20.0),
-              const Text(
-                'Fill your data below',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black54,
+                const SizedBox(height: 20.0),
+                const Text(
+                  'Fill your data below',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40.0),
-              Column(
-                children: <Widget>[
-                  AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: TextField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your name',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: TextField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your email',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                const SizedBox(height: 40.0),
+                Column(
+                  children: <Widget>[
+                    AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your name',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: TextField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your phone number',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your password',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    const SizedBox(height: 8.0),
+                    AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: TextField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your email',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  AnimatedOpacity(
-                    opacity: animationComplete ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: TextField(
-                      controller: _confirmPasswordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Confirm your password',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF06305A), width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    const SizedBox(height: 8.0),
+                    AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your phone number',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15.0),
-              AnimatedOpacity(
-                opacity: animationComplete ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: Text(
-                  _errorMessage,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 14.0,
-                  ),
+                    const SizedBox(height: 8.0),
+                    AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your password',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    AnimatedOpacity(
+                      opacity: animationComplete ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: TextField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Confirm your password',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFF06305A), width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 10.0),
-              AnimatedOpacity(
-                opacity: animationComplete ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: Container(
-                  width: double.infinity,
-                  child: RoundedButton(
-                    title: 'Register',
-                    colour: Color(0xFF219EBC),
-                    onPressed: _register,
+                const SizedBox(height: 15.0),
+                AnimatedOpacity(
+                  opacity: animationComplete ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14.0,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 10.0),
+                AnimatedOpacity(
+                  opacity: animationComplete ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),
+                  child: Container(
+                    width: double.infinity,
+                    child: RoundedButton(
+                      title: 'Register',
+                      colour: Color(0xFF219EBC),
+                      onPressed: _register,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

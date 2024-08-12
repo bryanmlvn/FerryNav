@@ -77,122 +77,126 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD2FBF7),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 138.0),
-            Hero(
-              tag: 'logo',
-              child: ClipOval(
-                child: AnimatedOpacity(
-                  opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(
-                      milliseconds: 500), // Set duration to 0.5 seconds
-                  child: Image.asset(
-                    'assets/3.png',
-                    width: 250.0,
-                    height: 250.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            AnimatedOpacity(
-              opacity: animationComplete ? 1.0 : 0.0,
-              duration:
-                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
-              child: const Text(
-                'Welcome to FerryNav\nYour only Ferry Booker',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black54,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 60.0),
-            if (errorMessage != null)
-              Text(
-                errorMessage!,
-                style: TextStyle(color: Colors.red),
-              ),
-            const SizedBox(height: 10.0),
-            Column(
-              children: <Widget>[
-                AnimatedOpacity(
-                  opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(
-                      milliseconds: 500), // Set duration to 0.5 seconds
-                  child: TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your email',
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFF06305A), width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFF06305A), width: 3.0),
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                      ),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 100.0),
+              Hero(
+                tag: 'logo',
+                child: ClipOval(
+                  child: AnimatedOpacity(
+                    opacity: animationComplete ? 1.0 : 0.0,
+                    duration: Duration(
+                        milliseconds: 500), // Set duration to 0.5 seconds
+                    child: Image.asset(
+                      'assets/3.png',
+                      width: 200.0,
+                      height: 200.0,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8.0),
-                AnimatedOpacity(
-                  opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(
-                      milliseconds: 500), // Set duration to 0.5 seconds
-                  child: TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your password',
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFF06305A), width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFF06305A), width: 3.0),
-                        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+              ),
+              const SizedBox(height: 20.0),
+              AnimatedOpacity(
+                opacity: animationComplete ? 1.0 : 0.0,
+                duration:
+                    Duration(milliseconds: 500), // Set duration to 0.5 seconds
+                child: const Text(
+                  'Welcome to FerryNav\nYour only Ferry Booker',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 60.0),
+              if (errorMessage != null)
+                Text(
+                  errorMessage!,
+                  style: TextStyle(color: Colors.red),
+                ),
+              const SizedBox(height: 10.0),
+              Column(
+                children: <Widget>[
+                  AnimatedOpacity(
+                    opacity: animationComplete ? 1.0 : 0.0,
+                    duration: Duration(
+                        milliseconds: 500), // Set duration to 0.5 seconds
+                    child: TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter your email',
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 70.0),
-            AnimatedOpacity(
-              opacity: buttonOpacity,
-              duration:
-                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
-              child: Container(
-                width: double.infinity,
-                child: RoundedButton(
-                  title: 'Log in',
-                  colour: Color(0xFF219EBC),
-                  onPressed: _login,
+                  const SizedBox(height: 8.0),
+                  AnimatedOpacity(
+                    opacity: animationComplete ? 1.0 : 0.0,
+                    duration: Duration(
+                        milliseconds: 500), // Set duration to 0.5 seconds
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter your password',
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFF06305A), width: 3.0),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 70.0),
+              AnimatedOpacity(
+                opacity: buttonOpacity,
+                duration:
+                    Duration(milliseconds: 500), // Set duration to 0.5 seconds
+                child: Container(
+                  width: double.infinity,
+                  child: RoundedButton(
+                    title: 'Log in',
+                    colour: Color(0xFF219EBC),
+                    onPressed: _login,
+
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
