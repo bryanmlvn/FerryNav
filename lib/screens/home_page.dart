@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
 import 'package:ferrynav/components/rounded_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -109,19 +111,42 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  void _login() {
-    // Start the animation
-    _controller.forward().whenComplete(() {
-      setState(() {
-        animationComplete = true;
-      });
-    });
+  void _search() async {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
 
-    // Navigate to Ticket Details page after animation completes
-    if (animationComplete) {
+    // Check if the user is logged in
+    if (user != null) {
+      String email = user.email ?? '';
+
+      // Collect selected data
+      String departurePort = _selectedDeparture ?? '';
+      String arrivalPort = _selectedArrival ?? '';
+      String seatNumber = _selectedSeat ?? '';
+      String departureDate = _selectedDate != null ? _selectedDate!.toLocal().toString().split(' ')[0] : '';
+
+      // Update Firebase Database
+      FirebaseFirestore.instance.collection('bookings').add({
+        'email': email, // Add the user's email
+        'departurePort': departurePort,
+        'arrivalPort': arrivalPort,
+        'numberOfPassanger': seatNumber,
+        'departureDate': departureDate,
+        'timestamp': FieldValue.serverTimestamp(), // For record keeping
+      }).then((value) {
+        print("Booking Added");
+      }).catchError((error) {
+        print("Failed to add booking: $error");
+      });
+
+      // Navigate to Ticket Details page after updating Firebase
       Navigator.pushNamed(context, TicketDetailsPage.id);
+    } else {
+      print("No user is logged in.");
+      // Handle the case where no user is logged in (optional)
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -338,10 +363,6 @@ class _HomePageState extends State<HomePage>
                               width: 3.0), // Border color and width
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        hintText: 'Select Arrival', // Hint text
-                        hintStyle: TextStyle(
-                          color: Colors.grey, // Hint text color
-                        ),
                       ),
                       icon: Icon(
                         Icons.arrow_drop_down,
@@ -362,53 +383,45 @@ class _HomePageState extends State<HomePage>
                     ),
                     SizedBox(
                         height:
-                            5.0), // Add some space between Text and Date Picker
-                    GestureDetector(
+                            5.0), // Add some space between Text and Dropdown
+                    TextFormField(
+                      readOnly: true, // Prevent user from manually editing date
                       onTap: () => _selectDate(context),
-                      child: AbsorbPointer(
-                        child: TextFormField(
-                          controller: TextEditingController(
-                            text: _selectedDate == null
-                                ? 'Select Date'
-                                : '${_selectedDate!.toLocal()}'
-                                    .split(' ')[0], // Format date
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor:
-                                Colors.white, // Text field background color
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: containerColor,
-                                  width: 3.0), // Border color and width
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: containerColor,
-                                  width: 3.0), // Border color and width
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: containerColor,
-                                  width: 3.0), // Border color and width
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            suffixIcon: Icon(
-                              Icons.calendar_today,
-                              color: appBarColor, // Icon color
-                            ),
-                          ),
+                      decoration: InputDecoration(
+                        hintText: _selectedDate != null
+                            ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
+                            : 'Select Date', // Show the selected date or a placeholder
+                        filled: true,
+                        fillColor: Colors.white, // Background color
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: containerColor,
+                              width: 3.0), // Border color and width
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        suffixIcon: Icon(
+                          Icons.calendar_today,
+                          color: appBarColor, // Icon color
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 15.0,
                     ),
                     Text(
-                      '  Seat',
+                      '  Number of Passanger',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: containerColor,
@@ -480,21 +493,17 @@ class _HomePageState extends State<HomePage>
                       ),
                       isExpanded: true, // Make the dropdown menu full width
                     ),
-
                     SizedBox(
-                      height: 50.0,
+                      height: 20.0,
                     ),
                     AnimatedOpacity(
                       opacity: buttonOpacity,
                       duration: Duration(
                           milliseconds: 500), // Set duration to 0.5 seconds
-                      child: Container(
-                        width: double.infinity,
-                        child: RoundedButton(
-                          title: 'Search',
-                          colour: Color(0xFF219EBC),
-                          onPressed: _login,
-                        ),
+                      child: RoundedButton(
+                        title: 'Search',
+                        colour: Color(0xFF219EBC),
+                        onPressed: _search,
                       ),
                     ),
                   ],
@@ -502,6 +511,59 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: AnimatedOpacity(
+        opacity: containerOpacity,
+        duration: Duration(milliseconds: 500),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0), // Adjust the radius as needed
+            topRight: Radius.circular(20.0), // Adjust the radius as needed
+          ),
+          child: NavigationBarTheme(
+            data: NavigationBarThemeData(
+              backgroundColor:
+                  appBarColor, // Background color of the navigation bar
+              indicatorColor:
+                  containerColor, // Indicator color for selected item
+              iconTheme: MaterialStateProperty.resolveWith<IconThemeData>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return IconThemeData(
+                      color: appBarColor); // Color when the icon is selected
+                }
+                return IconThemeData(
+                    color:
+                        containerColor); // Color when the icon is not selected
+              }),
+              labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return TextStyle(
+                      color: containerColor); // Label color when selected
+                }
+                return TextStyle(
+                    color: containerColor); // Label color when not selected
+              }),
+            ),
+            child: NavigationBar(
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.history),
+                  label: 'History',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
