@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:intl/intl.dart'; //untuk perhitungan
 
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
@@ -21,12 +22,14 @@ int seatCapacity = 200;
 //CODE HERE BROTHAA
 class TicketDetailsPage extends StatefulWidget {
   const TicketDetailsPage(
-      {Key? key, this.cityFrom, this.cityDestination, this.date})
+      {Key? key, this.cityFrom, this.cityDestination, this.date, this.numberOfPassanger})
       : super(key: key);
   static const String id = 'ticketdetails_page';
   final String? cityFrom;
   final String? cityDestination;
   final String? date;
+  final String? numberOfPassanger;
+
   @override
   State<TicketDetailsPage> createState() => _TicketDetailsPageState();
 }
@@ -34,6 +37,13 @@ class TicketDetailsPage extends StatefulWidget {
 class _TicketDetailsPageState extends State<TicketDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    // perhitungan harga
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp. ',
+      decimalDigits: 0,
+    ).format(int.parse(widget.numberOfPassanger ?? '0') * 525000);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,7 +58,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 20.0),
                 decoration: commonBoxDecorationStyle(containerColor),
                 constraints: const BoxConstraints(
                   minWidth: double.infinity,
@@ -68,18 +78,27 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                         children: <Widget>[
                           Text(
                             "${widget.date}",
-                            style: desc1Style(Colors.black),
+                            style: h3Style,
                           ),
                           Text(
                             duration,
-                            style: desc1Style(Colors.black),
+                            style: h3Style,
                           ),
                         ],
                       ),
                       const SizedBox(height: 8.0),
-                      Text(
-                        '$remainingSeat Remaining seats',
-                        style: h3Style,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                              '${widget.numberOfPassanger} seat',
+                            style: h3Style,
+                          ),
+                          Text(
+                            '$remainingSeat Remaining seats',
+                            style: h3Style,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -252,7 +271,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment
                 .center, // Center the Row's children vertically
             children: <Widget>[
-              const Padding(
+               Padding(
                 padding: EdgeInsets.fromLTRB(
                     20, 0, 20, 10), // Adjust padding as needed
                 child: Column(
@@ -261,20 +280,20 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                       .center, // Center the Column's children vertically
                   children: <Widget>[
                     Text(
-                      'Price/Seat',
+                      'Total Price',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black, // Adjust as needed
                       ),
                     ),
-                    Text(
-                      'Rp. 525.000',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.deepOrange,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                Text(
+                  formattedPrice,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                   ],
                 ),
               ),

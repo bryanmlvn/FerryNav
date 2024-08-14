@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage>
       return TicketDetailsPage(
         cityFrom: _selectedDeparture,
         cityDestination: _selectedArrival,
+        numberOfPassanger: _selectedSeat,
         date: getFormattedDate(_selectedDate),
       );
     }));
@@ -211,16 +212,13 @@ class _HomePageState extends State<HomePage>
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 15.0,
-            ),
             AnimatedOpacity(
               opacity: containerOpacity,
               duration:
                   Duration(milliseconds: 500), // Set duration to 0.5 seconds
               child: Container(
                 padding: EdgeInsets.all(16.0),
-                margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 20.0),
                 decoration: BoxDecoration(
                   color: appBarColor,
                   borderRadius: BorderRadius.circular(15.0),
