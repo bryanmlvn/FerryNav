@@ -4,13 +4,13 @@ import 'package:ferrynav/styles/style.dart';
 
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
-String cityFrom = "City 1";
+// String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
-String cityDestination = "City 2";
+// String cityDestination = "City 2";
 String pelabuhanDestination = "Pelabuhan 2";
 String timeDestination = '15.30';
-String date = "Fri, 99 December 2099";
+// String date = "Fri, 99 December 2099";
 int remainingSeat = 999;
 String duration = "±5h 15m";
 String kodeFerry = "FerryNav 02";
@@ -20,8 +20,13 @@ int seatCapacity = 200;
 
 //CODE HERE BROTHAA
 class TicketDetailsPage extends StatefulWidget {
+  const TicketDetailsPage(
+      {Key? key, this.cityFrom, this.cityDestination, this.date})
+      : super(key: key);
   static const String id = 'ticketdetails_page';
-
+  final String? cityFrom;
+  final String? cityDestination;
+  final String? date;
   @override
   State<TicketDetailsPage> createState() => _TicketDetailsPageState();
 }
@@ -38,194 +43,196 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
         ),
         backgroundColor: appBarColor,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
-              decoration: commonBoxDecorationStyle(containerColor),
-              constraints: const BoxConstraints(
-                minWidth: double.infinity,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
+                decoration: commonBoxDecorationStyle(containerColor),
+                constraints: const BoxConstraints(
+                  minWidth: double.infinity,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '${widget.cityFrom} - ${widget.cityDestination}',
+                        style: h1Style,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "${widget.date}",
+                            style: desc1Style(Colors.black),
+                          ),
+                          Text(
+                            duration,
+                            style: desc1Style(Colors.black),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        '$remainingSeat Remaining seats',
+                        style: h3Style,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: Padding(
+              const SizedBox(height: 8.0),
+              Container(
                 padding: const EdgeInsets.all(16.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                decoration: commonBoxDecorationStyle(appBarColor),
+                constraints: const BoxConstraints(
+                  minWidth: double.infinity,
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      '$cityFrom - $cityDestination',
-                      style: h1Style,
-                    ),
-                    const SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          date,
-                          style: desc1Style(Colors.black),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "${widget.cityFrom}",
+                              style: h2Style,
+                            ),
+                            Text(
+                              '$pelabuhanFrom\n$timeFrom',
+                              style: desc1Style(Colors.white),
+                            ),
+                          ],
                         ),
-                        Text(
-                          duration,
-                          style: desc1Style(Colors.black),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "->",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              "${widget.cityDestination}",
+                              style: h2Style,
+                            ),
+                            Text(
+                              '$pelabuhanDestination\n$timeDestination',
+                              textAlign: TextAlign.end,
+                              style: desc1Style(Colors.white),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      '$remainingSeat Remaining seats',
-                      style: h3Style,
+                    Container(
+                      padding: const EdgeInsets.all(16.0),
+                      margin: const EdgeInsets.only(top: 15.0, bottom: 5.0),
+                      decoration: commonBoxDecorationStyle(containerColor),
+                      constraints: const BoxConstraints(
+                        minWidth: double.infinity,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            kodeFerry,
+                            style: h3Style,
+                          ),
+                          const Divider(
+                            color: Colors
+                                .black, // You can customize the color of the divider
+                            thickness:
+                                1, // You can customize the thickness of the divider
+                            height:
+                                20, // You can customize the space between the text and the divider
+                          ),
+                          Text(
+                            'Ferry Specifications',
+                            style: desc1Style(Colors.black),
+                          ),
+                          const SizedBox(height: 3.0),
+                          Text(
+                            'Seat Capacity : $seatCapacity\nSeat Format : 1 seat/person',
+                            style: h4Style,
+                          ),
+                          const Divider(
+                            color: Colors
+                                .black, // You can customize the color of the divider
+                            thickness:
+                                1, // You can customize the thickness of the divider
+                            height:
+                                20, // You can customize the space between the text and the divider
+                          ),
+                          Text(
+                            'Facilities',
+                            style: desc1Style(Colors.black),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons
+                                        .wc, // Example toilet icon, you can use any suitable icon
+                                    size: 24.0,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    'Toilet',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 20.0,
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons
+                                        .local_drink, // Example free drink icon, you can use any suitable icon
+                                    size: 24.0,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    'Free Drink',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-              decoration: commonBoxDecorationStyle(appBarColor),
-              constraints: const BoxConstraints(
-                minWidth: double.infinity,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            cityFrom,
-                            style: h2Style,
-                          ),
-                          Text(
-                            '$pelabuhanFrom\n$timeFrom',
-                            style: desc1Style(Colors.white),
-                          ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          "->",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            cityDestination,
-                            style: h2Style,
-                          ),
-                          Text(
-                            '$pelabuhanDestination\n$timeDestination',
-                            textAlign: TextAlign.end,
-                            style: desc1Style(Colors.white),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    margin: const EdgeInsets.only(top: 15.0, bottom: 5.0),
-                    decoration: commonBoxDecorationStyle(containerColor),
-                    constraints: const BoxConstraints(
-                      minWidth: double.infinity,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          kodeFerry,
-                          style: h3Style,
-                        ),
-                        const Divider(
-                          color: Colors
-                              .black, // You can customize the color of the divider
-                          thickness:
-                              1, // You can customize the thickness of the divider
-                          height:
-                              20, // You can customize the space between the text and the divider
-                        ),
-                        Text(
-                          'Ferry Specifications',
-                          style: desc1Style(Colors.black),
-                        ),
-                        const SizedBox(height: 3.0),
-                        Text(
-                          'Seat Capacity : $seatCapacity\nSeat Format : 1 seat/person',
-                          style: h4Style,
-                        ),
-                        const Divider(
-                          color: Colors
-                              .black, // You can customize the color of the divider
-                          thickness:
-                              1, // You can customize the thickness of the divider
-                          height:
-                              20, // You can customize the space between the text and the divider
-                        ),
-                        Text(
-                          'Facilities',
-                          style: desc1Style(Colors.black),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Icon(
-                                  Icons
-                                      .wc, // Example toilet icon, you can use any suitable icon
-                                  size: 24.0,
-                                  color: Colors.black,
-                                ),
-                                Text(
-                                  'Toilet',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20.0,
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Icon(
-                                  Icons
-                                      .local_drink, // Example free drink icon, you can use any suitable icon
-                                  size: 24.0,
-                                  color: Colors.black,
-                                ),
-                                Text(
-                                  'Free Drink',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(

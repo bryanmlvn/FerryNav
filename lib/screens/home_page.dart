@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -13,6 +14,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  //DIBAWAH FUNCTION PASSING VALUE
+  void navigateToDetails(BuildContext ctx) {
+    String getFormattedDate(DateTime? date) {
+      if (date == null) return 'Select Date';
+      final DateFormat formatter = DateFormat('EEEE, dd MMM yyyy');
+      return formatter.format(date);
+    }
+
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return TicketDetailsPage(
+        cityFrom: _selectedDeparture,
+        cityDestination: _selectedArrival,
+        date: getFormattedDate(_selectedDate),
+      );
+    }));
+  }
+  //DIATAS FUNCTION PASSING VALUE
+
   String? _selectedDeparture;
   final List<String> _departure = [
     'Select Departure Port',
@@ -123,7 +142,9 @@ class _HomePageState extends State<HomePage>
       String departurePort = _selectedDeparture ?? '';
       String arrivalPort = _selectedArrival ?? '';
       String seatNumber = _selectedSeat ?? '';
-      String departureDate = _selectedDate != null ? _selectedDate!.toLocal().toString().split(' ')[0] : '';
+      String departureDate = _selectedDate != null
+          ? _selectedDate!.toLocal().toString().split(' ')[0]
+          : '';
 
       // Update Firebase Database
       FirebaseFirestore.instance.collection('bookings').add({
@@ -146,7 +167,6 @@ class _HomePageState extends State<HomePage>
       // Handle the case where no user is logged in (optional)
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -503,7 +523,10 @@ class _HomePageState extends State<HomePage>
                       child: RoundedButton(
                         title: 'Search',
                         colour: Color(0xFF219EBC),
-                        onPressed: _search,
+                        onPressed: () {
+                          _search;
+                          navigateToDetails(context);
+                        },
                       ),
                     ),
                   ],

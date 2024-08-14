@@ -23,6 +23,19 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
+  // Seat status list: 0 = available, 1 = selected, 2 = unavailable
+  List<int> seatStatus = List.filled(24, 0);
+
+  void toggleSeat(int index) {
+    setState(() {
+      if (seatStatus[index] == 0) {
+        seatStatus[index] = 1;
+      } else if (seatStatus[index] == 1) {
+        seatStatus[index] = 0;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,28 +108,72 @@ class _SeatPageState extends State<SeatPage> {
                 constraints: const BoxConstraints(
                   minWidth: double.infinity,
                 ),
-              )
+                // child: _buildSeatGrid(),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-}
 
-Widget _colorBox(Color color, String text) {
-  return Row(
-    children: [
-      Container(
-        width: 20,
-        height: 20,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(4), // Adjust the radius as needed
+  //GPT PUNYA AMPAS
+//   Widget _buildSeatGrid() {
+//     return GridView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 7, // 6 seats + 1 for the hallway spacing
+//         mainAxisSpacing: 10,
+//         crossAxisSpacing: 10,
+//         childAspectRatio: 1.5,
+//       ),
+//       itemCount: seatStatus.length + 4, // +4 for hallway spaces
+//       itemBuilder: (context, index) {
+//         if ((index + 1) % 7 == 0 || (index + 1) % 7 == 4) {
+//           // Hallway spaces
+//           return SizedBox.shrink();
+//         }
+//         int seatIndex = index - (index ~/ 7);
+//         return GestureDetector(
+//           onTap: () => toggleSeat(seatIndex),
+//           child: Container(
+//             decoration: BoxDecoration(
+//               color: seatStatus[seatIndex] == 0
+//                   ? Colors.green
+//                   : seatStatus[seatIndex] == 1
+//                       ? Colors.lightBlue
+//                       : Colors.red,
+//               borderRadius: BorderRadius.circular(4),
+//             ),
+//             child: Center(
+//               child: Text(
+//                 '${seatIndex + 1}',
+//                 style: TextStyle(color: Colors.white),
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
+  Widget _colorBox(Color color, String text) {
+    return Row(
+      children: [
+        Container(
+          width: 20,
+          height: 20,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius:
+                BorderRadius.circular(4), // Adjust the radius as needed
+          ),
         ),
-      ),
-      const SizedBox(width: 5),
-      Text(text),
-    ],
-  );
+        const SizedBox(width: 5),
+        Text(text),
+      ],
+    );
+  }
 }
