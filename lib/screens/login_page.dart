@@ -1,4 +1,5 @@
 import 'package:ferrynav/screens/home_page.dart';
+import 'package:ferrynav/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage>
         password: _passwordController.text.trim(),
       );
       print("Login successful");
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, NavigationMenu.id);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;

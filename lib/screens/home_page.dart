@@ -4,6 +4,7 @@ import 'package:ferrynav/screens/ticketdetails_page.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:ferrynav/screens/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -181,16 +182,17 @@ class _HomePageState extends State<HomePage>
               automaticallyImplyLeading: false,
               title: Center(
                 child: Row(
-                  mainAxisSize:
-                      MainAxisSize.min, // Make the row as small as its children
+                  mainAxisSize: MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(
-                          right: 8.0), // Space between image and title
-                      child: Image.asset(
-                        'assets/FerryNav-3.png',
-                        width: 50.0,
+                    Opacity(
+                      opacity: _animation.value, // Apply the animation value to opacity
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 8.0), // Space between image and title
+                        child: Image.asset(
+                          'assets/FerryNav-3.png',
+                          width: 50.0,
+                        ),
                       ),
                     ),
                     Text(
@@ -532,59 +534,6 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: AnimatedOpacity(
-        opacity: containerOpacity,
-        duration: Duration(milliseconds: 500),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0), // Adjust the radius as needed
-            topRight: Radius.circular(20.0), // Adjust the radius as needed
-          ),
-          child: NavigationBarTheme(
-            data: NavigationBarThemeData(
-              backgroundColor:
-                  appBarColor, // Background color of the navigation bar
-              indicatorColor:
-                  containerColor, // Indicator color for selected item
-              iconTheme: MaterialStateProperty.resolveWith<IconThemeData>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.selected)) {
-                  return IconThemeData(
-                      color: appBarColor); // Color when the icon is selected
-                }
-                return IconThemeData(
-                    color:
-                        containerColor); // Color when the icon is not selected
-              }),
-              labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.selected)) {
-                  return TextStyle(
-                      color: containerColor); // Label color when selected
-                }
-                return TextStyle(
-                    color: containerColor); // Label color when not selected
-              }),
-            ),
-            child: NavigationBar(
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.history),
-                  label: 'History',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:ferrynav/screens/home_page.dart';
+import 'package:ferrynav/screens/profile_page.dart';
 import 'package:ferrynav/screens/seat_page.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:ferrynav/screens/splash_page.dart';
 import 'package:ferrynav/screens/welcome_page.dart';
 import 'package:ferrynav/screens/login_page.dart';
 import 'package:ferrynav/screens/register_page.dart';
+import 'package:ferrynav/navigation_menu.dart';
+import 'package:ferrynav/screens/history_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +30,9 @@ class FerryNavApp extends StatelessWidget {
         RegisterPage.id: (context) => RegisterPage(),
         TicketDetailsPage.id: (context) => TicketDetailsPage(),
         SeatPage.id: (context) => SeatPage(),
+        ProfilePage.id: (context) => ProfilePage(),
+        NavigationMenu.id: (context) => NavigationMenu(),
+        HistoryPage.id: (context) => HistoryPage(),
       },
     );
   }
