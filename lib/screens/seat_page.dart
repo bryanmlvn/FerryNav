@@ -4,13 +4,10 @@ import 'package:ferrynav/components/rounded_button.dart';
 
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
-String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
-String cityDestination = "City 2";
 String pelabuhanDestination = "Pelabuhan 2";
 String timeDestination = '15.30';
-String date = "Fri, 99 December 2099";
 int remainingSeat = 999;
 String duration = "±5h 15m";
 String kodeFerry = "FerryNav 02";
@@ -18,6 +15,17 @@ int seatCapacity = 200;
 
 class SeatPage extends StatefulWidget {
   static const String id = 'seat_page';
+  const SeatPage(
+      {Key? key,
+      this.cityFrom,
+      this.cityDestination,
+      this.date,
+      this.numberOfPassenger})
+      : super(key: key);
+  final String? cityFrom;
+  final String? cityDestination;
+  final String? date;
+  final String? numberOfPassenger; //HARUSNYA INTEGER SIH TAPI GPP
 
   @override
   State<SeatPage> createState() => _SeatPageState();
@@ -27,14 +35,55 @@ class _SeatPageState extends State<SeatPage> {
   // Seat status list: 0 = available, 1 = selected, 2 = unavailable
   List<int> seatStatus = List.filled(70, 0);
 
+  late int numberOfPassengers;
+
+  @override
+  void initState() {
+    super.initState();
+    numberOfPassengers =
+        int.parse(widget.numberOfPassenger!); //  JADI CONVERT DISINI AJA DEH
+  }
+
   void toggleSeat(int index) {
     setState(() {
-      if (seatStatus[index] == 0) {
+      if (seatStatus[index] == 0 && _selectedSeatCount() < numberOfPassengers) {
         seatStatus[index] = 1;
       } else if (seatStatus[index] == 1) {
         seatStatus[index] = 0;
       }
     });
+  }
+
+  int _selectedSeatCount() {
+    return seatStatus.where((status) => status == 1).length;
+  }
+
+  void validateAndProceed() {
+    if (_selectedSeatCount() == numberOfPassengers) {
+      printSelectedSeats();
+    } else {
+      _showErrorDialog();
+    }
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Selection Error'),
+          content: Text('Please select $numberOfPassengers seats.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void printSelectedSeats() {
@@ -74,7 +123,7 @@ class _SeatPageState extends State<SeatPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        '$cityFrom - $cityDestination',
+                        '${widget.cityFrom} - ${widget.cityDestination}',
                         style: h1Style,
                       ),
                       const SizedBox(height: 8.0),
@@ -82,7 +131,7 @@ class _SeatPageState extends State<SeatPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            date,
+                            '${widget.date}',
                             style: desc1Style(Colors.black),
                           ),
                           Text(
@@ -178,8 +227,8 @@ class _SeatPageState extends State<SeatPage> {
                 margin: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
                 child: RoundedButton(
                   title: 'Continue',
-                  colour: Color(0xFF219EBC),
-                  onPressed: printSelectedSeats,
+                  colour: const Color(0xFF219EBC),
+                  onPressed: validateAndProceed,
                 ),
               ),
             ],
@@ -197,8 +246,7 @@ class _SeatPageState extends State<SeatPage> {
           height: 20,
           decoration: BoxDecoration(
             color: color,
-            borderRadius:
-                BorderRadius.circular(4), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(4),
           ),
         ),
         const SizedBox(width: 5),

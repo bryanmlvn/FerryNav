@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage>
       return TicketDetailsPage(
         cityFrom: _selectedDeparture,
         cityDestination: _selectedArrival,
-        numberOfPassanger: _selectedSeat,
+        numberOfPassenger: _selectedSeat,
         date: getFormattedDate(_selectedDate),
       );
     }));
@@ -182,13 +182,16 @@ class _HomePageState extends State<HomePage>
               automaticallyImplyLeading: false,
               title: Center(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min, // Make the row as small as its children
+                  mainAxisSize:
+                      MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Opacity(
-                      opacity: _animation.value, // Apply the animation value to opacity
+                      opacity: _animation
+                          .value, // Apply the animation value to opacity
                       child: Container(
-                        margin: const EdgeInsets.only(right: 8.0), // Space between image and title
+                        margin: const EdgeInsets.only(
+                            right: 8.0), // Space between image and title
                         child: Image.asset(
                           'assets/FerryNav-3.png',
                           width: 50.0,
