@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:ferrynav/components/rounded_button.dart';
 
-//tes
 Color appBarColor = const Color(0xFF06305A);
 Color containerColor = const Color(0xFFd2fbf7);
 String cityFrom = "City 1";
@@ -41,7 +41,7 @@ class _SeatPageState extends State<SeatPage> {
     List<int> selectedSeats = [];
     for (int i = 0; i < seatStatus.length; i++) {
       if (seatStatus[i] == 1) {
-        selectedSeats.add(i + 1);
+        selectedSeats.add(i);
       }
     }
     print("Selected Seats: $selectedSeats");
@@ -174,6 +174,14 @@ class _SeatPageState extends State<SeatPage> {
                       );
                     },
                   )),
+              Container(
+                margin: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
+                child: RoundedButton(
+                  title: 'Continue',
+                  colour: Color(0xFF219EBC),
+                  onPressed: printSelectedSeats,
+                ),
+              ),
             ],
           ),
         ),
