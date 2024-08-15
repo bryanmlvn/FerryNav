@@ -1,3 +1,4 @@
+import 'package:ferrynav/screens/booksummary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/components/rounded_button.dart';
@@ -224,11 +225,18 @@ class _SeatPageState extends State<SeatPage> {
                     },
                   )),
               Container(
-                margin: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
+                margin: const EdgeInsets.only(bottom: 60, left: 20, right: 20),
                 child: RoundedButton(
                   title: 'Continue',
                   colour: const Color(0xFF219EBC),
-                  onPressed: validateAndProceed,
+                  onPressed: () {
+                    validateAndProceed;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BookSummaryPage()),
+                    );
+                  },
                 ),
               ),
             ],
