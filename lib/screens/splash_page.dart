@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToWelcome() async {
     await Future.delayed(
         Duration(milliseconds: 1800), () {}); // Simulate a delay
-    Navigator.pushReplacementNamed(context, HomePage.id);
+    Navigator.pushReplacementNamed(context, SeatPage.id);
   }
 
   @override

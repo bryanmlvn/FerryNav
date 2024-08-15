@@ -24,7 +24,7 @@ class SeatPage extends StatefulWidget {
 
 class _SeatPageState extends State<SeatPage> {
   // Seat status list: 0 = available, 1 = selected, 2 = unavailable
-  List<int> seatStatus = List.filled(24, 0);
+  List<int> seatStatus = List.filled(70, 0);
 
   void toggleSeat(int index) {
     setState(() {
@@ -34,6 +34,16 @@ class _SeatPageState extends State<SeatPage> {
         seatStatus[index] = 0;
       }
     });
+  }
+
+  void printSelectedSeats() {
+    List<int> selectedSeats = [];
+    for (int i = 0; i < seatStatus.length; i++) {
+      if (seatStatus[i] == 1) {
+        selectedSeats.add(i + 1);
+      }
+    }
+    print("Selected Seats: $selectedSeats");
   }
 
   @override
@@ -102,62 +112,73 @@ class _SeatPageState extends State<SeatPage> {
               ),
               const SizedBox(height: 5.0),
               Container(
-                padding: const EdgeInsets.all(16.0),
-                margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-                decoration: commonBoxDecorationStyle(containerColor),
-                constraints: const BoxConstraints(
-                  minWidth: double.infinity,
-                ),
-                // child: _buildSeatGrid(),
-              ),
+                  padding: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 70,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                    ),
+                    itemBuilder: (context, index) {
+                      // Indices where the container should be invisible
+                      List<int> invisibleIndices = [
+                        0,
+                        7,
+                        6,
+                        13,
+                        3,
+                        10,
+                        17,
+                        24,
+                        31,
+                        38,
+                        45,
+                        52,
+                        59,
+                        66
+                      ];
+                      bool isVisible = !invisibleIndices.contains(index);
+
+                      return Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Visibility(
+                          visible: isVisible,
+                          child: GestureDetector(
+                            onTap: () => toggleSeat(index),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: seatStatus[index] == 0
+                                    ? Colors.green
+                                    : (seatStatus[index] == 1
+                                        ? Colors.lightBlue
+                                        : Colors.red),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '$index',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
             ],
           ),
         ),
       ),
     );
   }
-
-  //GPT PUNYA AMPAS
-//   Widget _buildSeatGrid() {
-//     return GridView.builder(
-//       shrinkWrap: true,
-//       physics: NeverScrollableScrollPhysics(),
-//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 7, // 6 seats + 1 for the hallway spacing
-//         mainAxisSpacing: 10,
-//         crossAxisSpacing: 10,
-//         childAspectRatio: 1.5,
-//       ),
-//       itemCount: seatStatus.length + 4, // +4 for hallway spaces
-//       itemBuilder: (context, index) {
-//         if ((index + 1) % 7 == 0 || (index + 1) % 7 == 4) {
-//           // Hallway spaces
-//           return SizedBox.shrink();
-//         }
-//         int seatIndex = index - (index ~/ 7);
-//         return GestureDetector(
-//           onTap: () => toggleSeat(seatIndex),
-//           child: Container(
-//             decoration: BoxDecoration(
-//               color: seatStatus[seatIndex] == 0
-//                   ? Colors.green
-//                   : seatStatus[seatIndex] == 1
-//                       ? Colors.lightBlue
-//                       : Colors.red,
-//               borderRadius: BorderRadius.circular(4),
-//             ),
-//             child: Center(
-//               child: Text(
-//                 '${seatIndex + 1}',
-//                 style: TextStyle(color: Colors.white),
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
 
   Widget _colorBox(Color color, String text) {
     return Row(

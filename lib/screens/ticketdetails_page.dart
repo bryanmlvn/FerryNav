@@ -22,7 +22,11 @@ int seatCapacity = 200;
 //CODE HERE BROTHAA
 class TicketDetailsPage extends StatefulWidget {
   const TicketDetailsPage(
-      {Key? key, this.cityFrom, this.cityDestination, this.date, this.numberOfPassanger})
+      {Key? key,
+      this.cityFrom,
+      this.cityDestination,
+      this.date,
+      this.numberOfPassanger})
       : super(key: key);
   static const String id = 'ticketdetails_page';
   final String? cityFrom;
@@ -71,6 +75,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                       Text(
                         '${widget.cityFrom} - ${widget.cityDestination}',
                         style: h1Style,
+                        textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 8.0),
                       Row(
@@ -91,7 +96,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                              '${widget.numberOfPassanger} seat',
+                            '${widget.numberOfPassanger} seat',
                             style: h3Style,
                           ),
                           Text(
@@ -271,7 +276,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment
                 .center, // Center the Row's children vertically
             children: <Widget>[
-               Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(
                     20, 0, 20, 10), // Adjust padding as needed
                 child: Column(
@@ -286,14 +291,14 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                         color: Colors.black, // Adjust as needed
                       ),
                     ),
-                Text(
-                  formattedPrice,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                    Text(
+                      formattedPrice,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -331,3 +336,24 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     );
   }
 }
+
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: <Widget>[
+// Text(
+// '${widget.cityFrom}',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// Text(
+// '-',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// Text(
+// '${widget.cityDestination}',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// ],
+// ),
