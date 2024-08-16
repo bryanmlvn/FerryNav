@@ -97,6 +97,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 },
               ),
             ),
+            SizedBox(height: 8),
             FadeTransition(
               opacity: opacityAnimation,
               child: RoundedButton(
