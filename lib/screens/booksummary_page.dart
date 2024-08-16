@@ -5,6 +5,8 @@ import 'package:ferrynav/styles/style.dart';
 class BookSummaryPage extends StatefulWidget {
   static const String id = 'booksummary_page';
 
+  const BookSummaryPage({super.key});
+
   @override
   _BookSummaryPageState createState() => _BookSummaryPageState();
 }
@@ -51,7 +53,7 @@ class _BookSummaryPageState extends State<BookSummaryPage> {
                     minWidth: double.infinity,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -59,14 +61,14 @@ class _BookSummaryPageState extends State<BookSummaryPage> {
                           "Payment Information",
                           style: h2Style.copyWith(color: Colors.black),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text(
                           userName!,
                           style: desc1Style(Colors.black),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text(
