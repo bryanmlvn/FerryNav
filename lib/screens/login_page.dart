@@ -25,6 +25,8 @@ class _LoginPageState extends State<LoginPage>
   bool animationComplete = false;
   double buttonOpacity = 0.0;
 
+  bool _passwordVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -158,8 +160,8 @@ class _LoginPageState extends State<LoginPage>
                         milliseconds: 500), // Set duration to 0.5 seconds
                     child: TextField(
                       controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
+                      obscureText: !_passwordVisible,
+                      decoration: InputDecoration(
                         hintText: 'Enter your password',
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
@@ -175,6 +177,18 @@ class _LoginPageState extends State<LoginPage>
                           borderSide:
                               BorderSide(color: Color(0xFF06305A), width: 3.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
                         ),
                       ),
                     ),
@@ -192,7 +206,6 @@ class _LoginPageState extends State<LoginPage>
                     title: 'Log in',
                     colour: Color(0xFF219EBC),
                     onPressed: _login,
-
                   ),
                 ),
               ),

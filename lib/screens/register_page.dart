@@ -20,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage>
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _isLoading = false;
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
   String _errorMessage = '';
 
   late AnimationController _controller;
@@ -115,6 +117,46 @@ class _RegisterPageState extends State<RegisterPage>
     super.dispose();
   }
 
+  Widget buildTextField(
+      {required TextEditingController controller,
+      required String hintText,
+      bool obscureText = false,
+      bool passwordVisible = false,
+      VoidCallback? togglePasswordVisibility}) {
+    return AnimatedOpacity(
+      opacity: animationComplete ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 500),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText && !passwordVisible,
+        decoration: InputDecoration(
+          hintText: hintText,
+          contentPadding:
+              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFF06305A), width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFF06305A), width: 3.0),
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          ),
+          suffixIcon: togglePasswordVisibility != null
+              ? IconButton(
+                  icon: Icon(
+                    passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: togglePasswordVisibility,
+                )
+              : null,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,138 +199,45 @@ class _RegisterPageState extends State<RegisterPage>
                 const SizedBox(height: 40.0),
                 Column(
                   children: <Widget>[
-                    AnimatedOpacity(
-                      opacity: animationComplete ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your name',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 3.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                        ),
-                      ),
+                    buildTextField(
+                      controller: _nameController,
+                      hintText: 'Enter your name',
                     ),
                     const SizedBox(height: 8.0),
-                    AnimatedOpacity(
-                      opacity: animationComplete ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your email',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 3.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                        ),
-                      ),
+                    buildTextField(
+                      controller: _emailController,
+                      hintText: 'Enter your email',
+                      obscureText: false,
                     ),
                     const SizedBox(height: 8.0),
-                    AnimatedOpacity(
-                      opacity: animationComplete ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your phone number',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 3.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                        ),
-                      ),
+                    buildTextField(
+                      controller: _phoneController,
+                      hintText: 'Enter your phone number',
+                      obscureText: false,
                     ),
                     const SizedBox(height: 8.0),
-                    AnimatedOpacity(
-                      opacity: animationComplete ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your password',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 3.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                        ),
-                      ),
+                    buildTextField(
+                      controller: _passwordController,
+                      hintText: 'Enter your password',
+                      obscureText: true,
+                      passwordVisible: _passwordVisible,
+                      togglePasswordVisibility: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
                     ),
                     const SizedBox(height: 8.0),
-                    AnimatedOpacity(
-                      opacity: animationComplete ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: TextField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Confirm your password',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF06305A), width: 3.0),
-                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                          ),
-                        ),
-                      ),
+                    buildTextField(
+                      controller: _confirmPasswordController,
+                      hintText: 'Confirm your password',
+                      obscureText: true,
+                      passwordVisible: _confirmPasswordVisible,
+                      togglePasswordVisibility: () {
+                        setState(() {
+                          _confirmPasswordVisible = !_confirmPasswordVisible;
+                        });
+                      },
                     ),
                   ],
                 ),
