@@ -10,6 +10,11 @@ import 'package:ferrynav/screens/login_page.dart';
 import 'package:ferrynav/screens/register_page.dart';
 import 'package:ferrynav/navigation_menu.dart';
 import 'package:ferrynav/screens/history_page.dart';
+import 'package:ferrynav/screens/profile_etc/privacyPolicy_page.dart';
+import 'package:ferrynav/screens/profile_etc/aboutUs_page.dart';
+import 'package:ferrynav/screens/profile_etc/contactUs_page.dart';
+import 'package:ferrynav/screens/profile_etc/termCondition_page.dart';
+import 'package:ferrynav/screens/profile_etc/faq_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +38,11 @@ class FerryNavApp extends StatelessWidget {
         ProfilePage.id: (context) => ProfilePage(),
         NavigationMenu.id: (context) => NavigationMenu(),
         HistoryPage.id: (context) => HistoryPage(),
+        PrivacypolicyPage.id: (context) => PrivacypolicyPage(),
+        TermconditionPage.id: (context) => TermconditionPage(),
+        FaqPage.id: (context) => FaqPage(),
+        ContactusPage.id: (context) => ContactusPage(),
+        AboutusPage.id: (context) => AboutusPage(),
       },
     );
   }
