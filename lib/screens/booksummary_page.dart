@@ -8,12 +8,13 @@ class BookSummaryPage extends StatefulWidget {
   const BookSummaryPage({super.key});
 
   @override
-  _BookSummaryPageState createState() => _BookSummaryPageState();
+  BookSummaryPageState createState() => BookSummaryPageState();
 }
 
-class _BookSummaryPageState extends State<BookSummaryPage> {
+class BookSummaryPageState extends State<BookSummaryPage> {
   String? userName;
   String? userPhone;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _BookSummaryPageState extends State<BookSummaryPage> {
     setState(() {
       userName = name;
       userPhone = phone;
+      isLoading = false;
     });
   }
 
@@ -42,46 +44,49 @@ class _BookSummaryPageState extends State<BookSummaryPage> {
         ),
         backgroundColor: appBarColor,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
-                  decoration: commonBoxDecorationStyle(containerColor),
-                  constraints: const BoxConstraints(
-                    minWidth: double.infinity,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Payment Information",
-                          style: h2Style.copyWith(color: Colors.black),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
+                      decoration: commonBoxDecorationStyle(containerColor),
+                      constraints: const BoxConstraints(
+                        minWidth: double.infinity,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Payment Information",
+                              style: h2Style.copyWith(color: Colors.black),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              userName ?? 'Loading...',
+                              style: desc1Style(Colors.black),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              userPhone ?? 'Loading...',
+                              style: desc1Style(Colors.black),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          userName!,
-                          style: desc1Style(Colors.black),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          userPhone!,
-                          style: desc1Style(Colors.black),
-                        ),
-                      ],
+                      ),
                     ),
-                  )),
-            ],
-          ),
-        ),
-      ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
