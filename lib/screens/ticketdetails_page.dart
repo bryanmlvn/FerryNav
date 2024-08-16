@@ -1,10 +1,9 @@
+import 'package:ferrynav/screens/seat_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:intl/intl.dart'; //untuk perhitungan
 
-Color appBarColor = const Color(0xFF06305A);
-Color containerColor = const Color(0xFFd2fbf7);
 // String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
@@ -22,19 +21,34 @@ int seatCapacity = 200;
 //CODE HERE BROTHAA
 class TicketDetailsPage extends StatefulWidget {
   const TicketDetailsPage(
-      {Key? key, this.cityFrom, this.cityDestination, this.date, this.numberOfPassanger})
+      {Key? key,
+      this.cityFrom,
+      this.cityDestination,
+      this.date,
+      this.numberOfPassenger})
       : super(key: key);
   static const String id = 'ticketdetails_page';
   final String? cityFrom;
   final String? cityDestination;
   final String? date;
-  final String? numberOfPassanger;
+  final String? numberOfPassenger;
 
   @override
   State<TicketDetailsPage> createState() => _TicketDetailsPageState();
 }
 
 class _TicketDetailsPageState extends State<TicketDetailsPage> {
+  void navigateToSeatPage(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return SeatPage(
+        cityFrom: widget.cityFrom,
+        cityDestination: widget.cityDestination,
+        date: widget.date,
+        numberOfPassenger: widget.numberOfPassenger,
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     // perhitungan harga
@@ -42,7 +56,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
       locale: 'id',
       symbol: 'Rp. ',
       decimalDigits: 0,
-    ).format(int.parse(widget.numberOfPassanger ?? '0') * 525000);
+    ).format(int.parse(widget.numberOfPassenger ?? '0') * 525000);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -71,6 +85,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                       Text(
                         '${widget.cityFrom} - ${widget.cityDestination}',
                         style: h1Style,
+                        textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 8.0),
                       Row(
@@ -91,7 +106,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                              '${widget.numberOfPassanger} seat',
+                            '${widget.numberOfPassenger} seat',
                             style: h3Style,
                           ),
                           Text(
@@ -271,7 +286,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment
                 .center, // Center the Row's children vertically
             children: <Widget>[
-               Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(
                     20, 0, 20, 10), // Adjust padding as needed
                 child: Column(
@@ -286,14 +301,14 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                         color: Colors.black, // Adjust as needed
                       ),
                     ),
-                Text(
-                  formattedPrice,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                    Text(
+                      formattedPrice,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -302,7 +317,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                     horizontal: 16.0), // Horizontal padding for button
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle the continue button press
+                    navigateToSeatPage(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -331,3 +346,24 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     );
   }
 }
+
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: <Widget>[
+// Text(
+// '${widget.cityFrom}',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// Text(
+// '-',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// Text(
+// '${widget.cityDestination}',
+// style: h1Style,
+// textAlign: TextAlign.left,
+// ),
+// ],
+// ),

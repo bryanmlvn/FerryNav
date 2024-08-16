@@ -1,15 +1,12 @@
+import 'package:ferrynav/screens/booksummary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:ferrynav/components/rounded_button.dart';
 
-Color appBarColor = const Color(0xFF06305A);
-Color containerColor = const Color(0xFFd2fbf7);
-String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
-String cityDestination = "City 2";
 String pelabuhanDestination = "Pelabuhan 2";
 String timeDestination = '15.30';
-String date = "Fri, 99 December 2099";
 int remainingSeat = 999;
 String duration = "±5h 15m";
 String kodeFerry = "FerryNav 02";
@@ -17,6 +14,17 @@ int seatCapacity = 200;
 
 class SeatPage extends StatefulWidget {
   static const String id = 'seat_page';
+  const SeatPage(
+      {Key? key,
+      this.cityFrom,
+      this.cityDestination,
+      this.date,
+      this.numberOfPassenger})
+      : super(key: key);
+  final String? cityFrom;
+  final String? cityDestination;
+  final String? date;
+  final String? numberOfPassenger; //HARUSNYA INTEGER SIH TAPI GPP
 
   @override
   State<SeatPage> createState() => _SeatPageState();
@@ -24,16 +32,67 @@ class SeatPage extends StatefulWidget {
 
 class _SeatPageState extends State<SeatPage> {
   // Seat status list: 0 = available, 1 = selected, 2 = unavailable
-  List<int> seatStatus = List.filled(24, 0);
+  List<int> seatStatus = List.filled(70, 0);
+
+  late int numberOfPassengers;
+
+  @override
+  void initState() {
+    super.initState();
+    numberOfPassengers =
+        int.parse(widget.numberOfPassenger!); //  JADI CONVERT DISINI AJA DEH
+  }
 
   void toggleSeat(int index) {
     setState(() {
-      if (seatStatus[index] == 0) {
+      if (seatStatus[index] == 0 && _selectedSeatCount() < numberOfPassengers) {
         seatStatus[index] = 1;
       } else if (seatStatus[index] == 1) {
         seatStatus[index] = 0;
       }
     });
+  }
+
+  int _selectedSeatCount() {
+    return seatStatus.where((status) => status == 1).length;
+  }
+
+  void validateAndProceed() {
+    if (_selectedSeatCount() == numberOfPassengers) {
+      printSelectedSeats();
+    } else {
+      _showErrorDialog();
+    }
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Selection Error'),
+          content: Text('Please select $numberOfPassengers seats.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void printSelectedSeats() {
+    List<int> selectedSeats = [];
+    for (int i = 0; i < seatStatus.length; i++) {
+      if (seatStatus[i] == 1) {
+        selectedSeats.add(i);
+      }
+    }
+    print("Selected Seats: $selectedSeats");
   }
 
   @override
@@ -63,7 +122,7 @@ class _SeatPageState extends State<SeatPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        '$cityFrom - $cityDestination',
+                        '${widget.cityFrom} - ${widget.cityDestination}',
                         style: h1Style,
                       ),
                       const SizedBox(height: 8.0),
@@ -71,7 +130,7 @@ class _SeatPageState extends State<SeatPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            date,
+                            '${widget.date}',
                             style: desc1Style(Colors.black),
                           ),
                           Text(
@@ -102,13 +161,81 @@ class _SeatPageState extends State<SeatPage> {
               ),
               const SizedBox(height: 5.0),
               Container(
-                padding: const EdgeInsets.all(16.0),
-                margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-                decoration: commonBoxDecorationStyle(containerColor),
-                constraints: const BoxConstraints(
-                  minWidth: double.infinity,
+                  padding: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 70,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                    ),
+                    itemBuilder: (context, index) {
+                      // Indices where the container should be invisible
+                      List<int> invisibleIndices = [
+                        0,
+                        7,
+                        6,
+                        13,
+                        3,
+                        10,
+                        17,
+                        24,
+                        31,
+                        38,
+                        45,
+                        52,
+                        59,
+                        66
+                      ];
+                      bool isVisible = !invisibleIndices.contains(index);
+
+                      return Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Visibility(
+                          visible: isVisible,
+                          child: GestureDetector(
+                            onTap: () => toggleSeat(index),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: seatStatus[index] == 0
+                                    ? Colors.green
+                                    : (seatStatus[index] == 1
+                                        ? Colors.lightBlue
+                                        : Colors.red),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '$index',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
+              Container(
+                margin: const EdgeInsets.only(bottom: 60, left: 20, right: 20),
+                child: RoundedButton(
+                  title: 'Continue',
+                  colour: const Color(0xFF219EBC),
+                  onPressed: () {
+                    validateAndProceed;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BookSummaryPage()),
+                    );
+                  },
                 ),
-                // child: _buildSeatGrid(),
               ),
             ],
           ),
@@ -116,48 +243,6 @@ class _SeatPageState extends State<SeatPage> {
       ),
     );
   }
-
-  //GPT PUNYA AMPAS
-//   Widget _buildSeatGrid() {
-//     return GridView.builder(
-//       shrinkWrap: true,
-//       physics: NeverScrollableScrollPhysics(),
-//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 7, // 6 seats + 1 for the hallway spacing
-//         mainAxisSpacing: 10,
-//         crossAxisSpacing: 10,
-//         childAspectRatio: 1.5,
-//       ),
-//       itemCount: seatStatus.length + 4, // +4 for hallway spaces
-//       itemBuilder: (context, index) {
-//         if ((index + 1) % 7 == 0 || (index + 1) % 7 == 4) {
-//           // Hallway spaces
-//           return SizedBox.shrink();
-//         }
-//         int seatIndex = index - (index ~/ 7);
-//         return GestureDetector(
-//           onTap: () => toggleSeat(seatIndex),
-//           child: Container(
-//             decoration: BoxDecoration(
-//               color: seatStatus[seatIndex] == 0
-//                   ? Colors.green
-//                   : seatStatus[seatIndex] == 1
-//                       ? Colors.lightBlue
-//                       : Colors.red,
-//               borderRadius: BorderRadius.circular(4),
-//             ),
-//             child: Center(
-//               child: Text(
-//                 '${seatIndex + 1}',
-//                 style: TextStyle(color: Colors.white),
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
 
   Widget _colorBox(Color color, String text) {
     return Row(
@@ -167,8 +252,7 @@ class _SeatPageState extends State<SeatPage> {
           height: 20,
           decoration: BoxDecoration(
             color: color,
-            borderRadius:
-                BorderRadius.circular(4), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(4),
           ),
         ),
         const SizedBox(width: 5),

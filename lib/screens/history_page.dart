@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -8,8 +9,8 @@ class HistoryPage extends StatefulWidget {
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStateMixin{
-
+class _HistoryPageState extends State<HistoryPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   bool animationComplete = false;
@@ -40,6 +41,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       _controller.forward();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +54,16 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
               automaticallyImplyLeading: false,
               title: Center(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min, // Make the row as small as its children
+                  mainAxisSize:
+                      MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Opacity(
-                      opacity: _animation.value, // Apply the animation value to opacity
+                      opacity: _animation
+                          .value, // Apply the animation value to opacity
                       child: Container(
-                        margin: const EdgeInsets.only(right: 8.0), // Space between image and title
+                        margin: const EdgeInsets.only(
+                            right: 8.0), // Space between image and title
                         child: Image.asset(
                           'assets/FerryNav-3.png',
                           width: 50.0,
@@ -83,9 +88,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       ),
       body: Center(
         child: Column(
-          children: <Widget>[
-            Text('History Page')
-          ],
+          children: <Widget>[Text('History Page')],
         ),
       ),
     );

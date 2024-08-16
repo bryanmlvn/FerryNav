@@ -3,6 +3,7 @@ import 'package:ferrynav/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/screens/home_page.dart';
 import 'package:ferrynav/screens/ticketdetails_page.dart';
+import 'package:ferrynav/styles/style.dart';
 
 class NavigationMenu extends StatefulWidget {
   static const String id = 'navigation_menu';
@@ -25,10 +26,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
       _selectedIndex = index;
     });
   }
+
   late AnimationController _controller;
   double containerOpacity = 0.0;
 
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -39,6 +41,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       _controller.forward();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,26 +58,29 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
           child: NavigationBarTheme(
             data: NavigationBarThemeData(
-              backgroundColor: Colors.transparent, // Set to transparent for rounded corners
-              indicatorColor: containerColor, // Indicator color for selected item
+              backgroundColor:
+                  Colors.transparent, // Set to transparent for rounded corners
+              indicatorColor:
+                  containerColor, // Indicator color for selected item
               iconTheme: MaterialStateProperty.resolveWith<IconThemeData>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return IconThemeData(
-                          color: appBarColor); // Color when the icon is selected
-                    }
-                    return IconThemeData(
-                        color: containerColor); // Color when the icon is not selected
-                  }),
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return IconThemeData(
+                      color: appBarColor); // Color when the icon is selected
+                }
+                return IconThemeData(
+                    color:
+                        containerColor); // Color when the icon is not selected
+              }),
               labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return TextStyle(
-                          color: containerColor); // Label color when selected
-                    }
-                    return TextStyle(
-                        color: containerColor); // Label color when not selected
-                  }),
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return TextStyle(
+                      color: containerColor); // Label color when selected
+                }
+                return TextStyle(
+                    color: containerColor); // Label color when not selected
+              }),
             ),
             child: NavigationBar(
               height: 80.0,
@@ -84,8 +90,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
               onDestinationSelected: _onDestinationSelected,
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-                NavigationDestination(icon: Icon(Icons.history), label: 'History'),
-                NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
+                NavigationDestination(
+                    icon: Icon(Icons.history), label: 'History'),
+                NavigationDestination(
+                    icon: Icon(Icons.person), label: 'Profile'),
               ],
             ),
           ),
