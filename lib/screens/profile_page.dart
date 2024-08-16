@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ferrynav/screens/ticketdetails_page.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:ferrynav/screens/profile_etc/aboutUs_page.dart';
+import 'package:ferrynav/screens/profile_etc/contactUs_page.dart';
+import 'package:ferrynav/screens/profile_etc/faq_page.dart';
+import 'package:ferrynav/screens/profile_etc/privacyPolicy_page.dart';
+import 'package:ferrynav/screens/profile_etc/termCondition_page.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String id = 'profile_page';
@@ -88,7 +92,258 @@ class _ProfilePageState extends State<ProfilePage>
       ),
       body: Center(
         child: Column(
-          children: <Widget>[Text('Profile Page')],
+          children: <Widget>[
+            AnimatedOpacity(
+              opacity: containerOpacity,
+              duration:
+              Duration(milliseconds: 500),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 50.0),
+                decoration: BoxDecoration(
+                  color: appBarColor,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                constraints: BoxConstraints(
+                  minWidth: double.infinity,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Nama',
+                      style: h2Style,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Transform.translate(
+                          offset: Offset(0, -13), // Adjust the vertical offset (x, y). Negative y moves the icon up
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TermconditionPage()),
+                );
+              },
+              borderRadius: BorderRadius.circular(16.0),
+              child: AnimatedOpacity(
+                opacity: containerOpacity,
+                duration:
+                Duration(milliseconds: 500),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 5.0),
+                  decoration: BoxDecoration(
+                    color: appBarColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Icon(Icons.description, color: Colors.white,),
+                          SizedBox(width: 18.0,),
+                          Text(
+                              'Term & Condition',
+                              style: h2Style
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutusPage()),
+                );
+              },
+              borderRadius: BorderRadius.circular(16.0),
+              child: AnimatedOpacity(
+                opacity: containerOpacity,
+                duration:
+                Duration(milliseconds: 500),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+                  decoration: BoxDecoration(
+                    color: appBarColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Icon(Icons.apartment, color: Colors.white,),
+                          SizedBox(width: 18.0,),
+                          Text(
+                              'About Us',
+                              style: h2Style
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacypolicyPage()),
+                );
+              },
+              borderRadius: BorderRadius.circular(16.0),
+              child: AnimatedOpacity(
+                opacity: containerOpacity,
+                duration:
+                Duration(milliseconds: 500),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+                  decoration: BoxDecoration(
+                    color: appBarColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Icon(Icons.privacy_tip, color: Colors.white,),
+                          SizedBox(width: 18.0,),
+                          Text(
+                              'Privacy Policy',
+                              style: h2Style
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FaqPage()),
+                );
+              },
+              borderRadius: BorderRadius.circular(16.0),
+              child: AnimatedOpacity(
+                opacity: containerOpacity,
+                duration:
+                Duration(milliseconds: 500),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+                  decoration: BoxDecoration(
+                    color: appBarColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Icon(Icons.question_mark, color: Colors.white,),
+                          SizedBox(width: 18.0,),
+                          Text(
+                              'FAQ',
+                              style: h2Style
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                // Navigate to another page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactusPage()),
+                );
+              },
+              borderRadius: BorderRadius.circular(16.0),
+              child: AnimatedOpacity(
+                opacity: containerOpacity,
+                duration:
+                Duration(milliseconds: 500),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+                  decoration: BoxDecoration(
+                    color: appBarColor,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Icon(Icons.call, color: Colors.white,),
+                          SizedBox(width: 18.0,),
+                          Text(
+                              'Contact Us',
+                              style: h2Style
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

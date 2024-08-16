@@ -50,7 +50,7 @@ class AboutusPage extends StatelessWidget {
                   ),
                   Text(
                     'Welcome to FerryNav! We are dedicated to providing a seamless and convenient experience for booking ferry tickets and navigating ferry services.\n\n'
-                        'Founded in [Year], our mission is to make ferry travel easy and accessible for everyone. With our user-friendly mobile application, you can easily search for ferry routes, book tickets, and receive real-time updates about your travel.\n\n'
+                        'Founded in [2024], our mission is to make ferry travel easy and accessible for everyone. With our user-friendly mobile application, you can easily search for ferry routes, book tickets, and receive real-time updates about your travel.\n\n'
                         'Our team is committed to customer satisfaction and continuous improvement. We work closely with ferry operators to ensure that our app offers accurate and up-to-date information.\n\n'
                         'If you have any questions or feedback, please feel free to reach out to us at [support@ferrynav.com].\n\n'
                         'Thank you for choosing FerryNav. We look forward to serving you!\n\n'
