@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+Color appBarColor = const Color(0xFF06305A);
+Color containerColor = const Color(0xFFd2fbf7);
+
 TextStyle h1Style = const TextStyle(
   fontSize: 25.0,
   color: Colors.black,

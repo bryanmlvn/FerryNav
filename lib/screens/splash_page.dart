@@ -5,6 +5,7 @@ import 'package:ferrynav/screens/home_page.dart';
 import 'package:ferrynav/screens/login_page.dart';
 import 'package:ferrynav/screens/seat_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ferrynav/styles/style.dart';
 import 'welcome_page.dart'; // Ensure you have the correct import for WelcomeScreen
 
 class SplashScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToWelcome() async {
     await Future.delayed(
         Duration(milliseconds: 1800), () {}); // Simulate a delay
-    Navigator.pushReplacementNamed(context, LoginPage.id);
+    Navigator.pushReplacementNamed(context, WelcomeScreen.id);
   }
 
   @override

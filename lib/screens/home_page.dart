@@ -5,6 +5,7 @@ import 'package:ferrynav/components/rounded_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:ferrynav/screens/profile_page.dart';
+import 'package:ferrynav/styles/style.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 
-Color appBarColor = const Color(0xFF06305A);
-Color containerColor = const Color(0xFFd2fbf7);
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
 String pelabuhanDestination = "Pelabuhan 2";

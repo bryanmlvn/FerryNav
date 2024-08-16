@@ -34,4 +34,15 @@ class FirestoreService {
     }
     return null;
   }
+
+  Future<String?> getCurrentUserPhone() async {
+    String? uid = await getCurrentUserUID();
+    if (uid != null) {
+      DocumentSnapshot doc = await users.doc(uid).get();
+      if (doc.exists) {
+        return doc.get('phone') as String?;
+      }
+    }
+    return null;
+  }
 }

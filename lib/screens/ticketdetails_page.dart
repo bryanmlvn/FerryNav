@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:intl/intl.dart'; //untuk perhitungan
 
-Color appBarColor = const Color(0xFF06305A);
-Color containerColor = const Color(0xFFd2fbf7);
 // String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
 String timeFrom = '10.30';
