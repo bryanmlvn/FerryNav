@@ -1,4 +1,3 @@
-import 'package:ferrynav/screens/booksummary_page.dart';
 import 'package:ferrynav/screens/home_page.dart';
 import 'package:ferrynav/screens/profile_page.dart';
 import 'package:ferrynav/screens/seat_page.dart';
@@ -34,7 +33,6 @@ class FerryNavApp extends StatelessWidget {
         ProfilePage.id: (context) => ProfilePage(),
         NavigationMenu.id: (context) => NavigationMenu(),
         HistoryPage.id: (context) => HistoryPage(),
-        BookSummaryPage.id: (context) => BookSummaryPage(),
       },
     );
   }
