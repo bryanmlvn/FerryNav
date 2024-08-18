@@ -196,20 +196,33 @@ class _LoginPageState extends State<LoginPage>
                 ],
               ),
               const SizedBox(height: 70.0),
-              AnimatedOpacity(
-                opacity: buttonOpacity,
-                duration:
-                    Duration(milliseconds: 500), // Set duration to 0.5 seconds
-                child: Container(
-                  width: double.infinity,
-                  child: RoundedButton(
-                    title: 'Log in',
-                    colour: Color(0xFF219EBC),
-                    onPressed: _login,
-                  ),
-                ),
-              ),
+              // AnimatedOpacity(
+              //   opacity: buttonOpacity,
+              //   duration:
+              //       Duration(milliseconds: 500), // Set duration to 0.5 seconds
+              //   child: Container(
+              //     width: double.infinity,
+              //     child: RoundedButton(
+              //       title: 'Log in',
+              //       colour: Color(0xFF219EBC),
+              //       onPressed: _login,
+              //     ),
+              //   ),
+              // ),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: AnimatedOpacity(
+        opacity: buttonOpacity,
+        duration: Duration(milliseconds: 500), // Set duration to 0.5 seconds
+        child: Container(
+          margin: EdgeInsets.only(bottom: 60, left: 20, right: 20),
+          width: double.infinity,
+          child: RoundedButton(
+            title: 'Log in',
+            colour: Color(0xFF219EBC),
+            onPressed: _login,
           ),
         ),
       ),

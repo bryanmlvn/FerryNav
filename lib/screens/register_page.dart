@@ -254,20 +254,33 @@ class _RegisterPageState extends State<RegisterPage>
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                AnimatedOpacity(
-                  opacity: animationComplete ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),
-                  child: Container(
-                    width: double.infinity,
-                    child: RoundedButton(
-                      title: 'Register',
-                      colour: Color(0xFF219EBC),
-                      onPressed: _register,
-                    ),
-                  ),
-                ),
+                // AnimatedOpacity(
+                //   opacity: animationComplete ? 1.0 : 0.0,
+                //   duration: Duration(milliseconds: 500),
+                //   child: Container(
+                //     width: double.infinity,
+                //     child: RoundedButton(
+                //       title: 'Register',
+                //       colour: Color(0xFF219EBC),
+                //       onPressed: _register,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: AnimatedOpacity(
+        opacity: animationComplete ? 1.0 : 0.0,
+        duration: Duration(milliseconds: 500),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 60, left: 20, right: 20),
+          width: double.infinity,
+          child: RoundedButton(
+            title: 'Register',
+            colour: Color(0xFF219EBC),
+            onPressed: _register,
           ),
         ),
       ),

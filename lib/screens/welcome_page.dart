@@ -39,7 +39,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD2FBF7),
-      body: Stack(
+      body: Column(
         children: <Widget>[
           // Main content
           Padding(
@@ -77,31 +77,39 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     ),
                   ],
                 ),
-                SizedBox(height: 60.0), // Spacing between text and buttons
-                FadeTransition(
-                  opacity: opacityAnimation,
-                  child: RoundedButton(
-                    title: 'Log In',
-                    colour: Color(0xFF219EBC),
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginPage.id);
-                    },
-                  ),
-                ),
-                FadeTransition(
-                  opacity: opacityAnimation,
-                  child: RoundedButton(
-                    title: 'Register',
-                    colour: Color(0xFF219EBC),
-                    onPressed: () {
-                      Navigator.pushNamed(context, RegisterPage.id);
-                    },
-                  ),
-                ),
               ],
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 60.0, left: 20, right: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FadeTransition(
+              opacity: opacityAnimation,
+              child: RoundedButton(
+                title: 'Log In',
+                colour: Color(0xFF219EBC),
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginPage.id);
+                },
+              ),
+            ),
+            SizedBox(height: 8),
+            FadeTransition(
+              opacity: opacityAnimation,
+              child: RoundedButton(
+                title: 'Register',
+                colour: Color(0xFF219EBC),
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterPage.id);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

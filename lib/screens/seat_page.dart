@@ -31,6 +31,18 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
+  void navigateToBookSummary(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return BookSummaryPage(
+        cityFrom: widget.cityFrom,
+        cityDestination: widget.cityDestination,
+        date: widget.date,
+        numberOfPassenger: widget.numberOfPassenger,
+        selectedSeats: getSelectedSeats(),
+      );
+    }));
+  }
+
   // Seat status list: 0 = available, 1 = selected, 2 = unavailable
   List<int> seatStatus = List.filled(70, 0);
 
@@ -59,7 +71,7 @@ class _SeatPageState extends State<SeatPage> {
 
   void validateAndProceed() {
     if (_selectedSeatCount() == numberOfPassengers) {
-      printSelectedSeats();
+      getSelectedSeats();
     } else {
       _showErrorDialog();
     }
@@ -85,7 +97,7 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  void printSelectedSeats() {
+  List<int> getSelectedSeats() {
     List<int> selectedSeats = [];
     for (int i = 0; i < seatStatus.length; i++) {
       if (seatStatus[i] == 1) {
@@ -93,6 +105,7 @@ class _SeatPageState extends State<SeatPage> {
       }
     }
     print("Selected Seats: $selectedSeats");
+    return selectedSeats;
   }
 
   @override
@@ -229,11 +242,7 @@ class _SeatPageState extends State<SeatPage> {
                   colour: const Color(0xFF219EBC),
                   onPressed: () {
                     validateAndProceed;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BookSummaryPage()),
-                    );
+                    navigateToBookSummary(context);
                   },
                 ),
               ),
