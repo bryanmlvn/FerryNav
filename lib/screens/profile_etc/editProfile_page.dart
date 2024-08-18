@@ -14,7 +14,6 @@ class _EditprofilePageState extends State<EditprofilePage> {
   void initState() {
     super.initState();
     _loadCurrentUserDetails();
-    _updateCurrentUserDetails();
   }
 
   String? userName;
