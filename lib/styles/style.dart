@@ -13,6 +13,11 @@ TextStyle h2Style = const TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.w700,
 );
+TextStyle h2StyleB = const TextStyle(
+  fontSize: 18.0,
+  color: Colors.black,
+  fontWeight: FontWeight.w700,
+);
 TextStyle h3Style = const TextStyle(
   fontSize: 15.0,
   color: Colors.black,

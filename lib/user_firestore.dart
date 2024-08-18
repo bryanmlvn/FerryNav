@@ -45,4 +45,35 @@ class FirestoreService {
     }
     return null;
   }
+  Future<String?> getCurrentUserEmail() async {
+    String? uid = await getCurrentUserUID();
+    if (uid != null) {
+      DocumentSnapshot doc = await users.doc(uid).get();
+      if (doc.exists) {
+        return doc.get('email') as String?;
+      }
+    }
+    return null;
+  }
+
+  //Update Function
+  Future<void> updateUserName(String newName) async {
+    String? uid = await getCurrentUserUID();
+    if (uid != null) {
+      await users.doc(uid).update({'name': newName});
+    }
+  }
+  Future<void> updateUserPhone(String newPhone) async{
+    String? uid = await getCurrentUserUID();
+    if (uid != null) {
+      await users.doc(uid).update({'phone': newPhone});
+    }
+  }
+  Future<void> updateUserEmail(String newEmail) async{
+    String? uid = await getCurrentUserUID();
+    if (uid != null) {
+      await users.doc(uid).update({'email': newEmail});
+    }
+  }
 }
+

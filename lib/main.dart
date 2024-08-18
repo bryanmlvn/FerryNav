@@ -15,6 +15,7 @@ import 'package:ferrynav/screens/profile_etc/aboutUs_page.dart';
 import 'package:ferrynav/screens/profile_etc/contactUs_page.dart';
 import 'package:ferrynav/screens/profile_etc/termCondition_page.dart';
 import 'package:ferrynav/screens/profile_etc/faq_page.dart';
+import 'package:ferrynav/screens/profile_etc/editProfile_page.dart';
 
 
 void main() async {
@@ -44,6 +45,7 @@ class FerryNavApp extends StatelessWidget {
         FaqPage.id: (context) => FaqPage(),
         ContactusPage.id: (context) => ContactusPage(),
         AboutusPage.id: (context) => AboutusPage(),
+        EditprofilePage.id: (context) => EditprofilePage(),
       },
     );
   }
