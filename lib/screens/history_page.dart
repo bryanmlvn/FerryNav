@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
-import 'package:ferrynav/screens/ticketdetails_page.dart';
+
 
 class HistoryPage extends StatefulWidget {
   static const String id = 'history_page';
@@ -16,6 +16,81 @@ class _HistoryPageState extends State<HistoryPage>
   bool animationComplete = false;
   double buttonOpacity = 0.0;
   double containerOpacity = 0.0;
+
+
+  void _showDetailDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: appBarColor,
+          titlePadding: EdgeInsets.all(15), // Custom padding for the title
+          contentPadding: EdgeInsets.all(20), // Custom padding for the content
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0), // Customize the dialog shape
+          ),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.8, // 80% of screen width
+            height: MediaQuery.of(context).size.height * 0.5,// Fixed height
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('City 1', style: h2StyleB.copyWith(color: containerColor)),
+                    Text('->', style: h2StyleB.copyWith(color: containerColor)),
+                    Text('City 2', style: h2StyleB.copyWith(color: containerColor))
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Jam Berangkat', style: desc1Style(containerColor),),
+                    Text('Jam Nyampe', style: desc1Style(containerColor),)
+                  ],
+                ),
+                SizedBox(height: 25),
+
+                Text('Nama Pemesan: ', style: h3Style.copyWith(color: containerColor)),
+                Text('nama', style: desc1Style(containerColor),),
+                SizedBox(height: 10,),
+
+                Text('Departutre Date: ', style: h3Style.copyWith(color: containerColor)),
+                Text('tanggal', style: desc1Style(containerColor),),
+                SizedBox(height: 10,),
+
+                Text('Booking Number: ', style: h3Style.copyWith(color: containerColor)),
+                Text('booking number', style: desc1Style(containerColor),),
+                SizedBox(height: 10,),
+
+                Text('Seat: ', style: h3Style.copyWith(color: containerColor)),
+                Text('seat number', style: desc1Style(containerColor),),
+                SizedBox(height: 10,),
+
+                Text('Payment Status: ', style: h3Style.copyWith(color: containerColor)),
+                Text('payment status', style: desc1Style(containerColor),),
+
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Text('Close', style: h3Style.copyWith(color: Colors.red)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
 
   @override
   void initState() {
@@ -86,9 +161,73 @@ class _HistoryPageState extends State<HistoryPage>
           },
         ),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[Text('History Page')],
+      body: AnimatedOpacity(
+        opacity: containerOpacity,
+        duration: Duration(milliseconds: 500),
+        child: Container(
+          padding: EdgeInsets.all(3.0),
+          margin: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 45.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            // color: Colors.grey
+          ),
+          constraints: BoxConstraints(
+            minWidth: double.infinity,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'History',
+                style: h1Style,
+              ),
+              Container(
+                padding: EdgeInsets.all(16.0),
+                margin: EdgeInsets.fromLTRB(0, 15.0, 0, 45.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    color: containerColor,
+                ),
+                constraints: BoxConstraints(
+                  minWidth: double.infinity,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'City 1 - City 2',
+                      style: h2StyleB,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Nama Pemesan',
+                          style: h4Style,
+                        ),
+                        TextButton(
+                            onPressed: _showDetailDialog,
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero, // Remove default padding
+                              minimumSize: Size(0, 0),  // Optional: Set minimum size to zero if needed
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Shrink the tap target size
+                            ),
+                            child: Text(
+                              'Details',
+                              style: h3Style.copyWith(color: appBarColor)
+                            ),
+                        )
+                      ],
+                    ),
+                    Text(
+                      'Purchase Date',
+                      style: h4Style,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

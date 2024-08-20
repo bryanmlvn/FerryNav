@@ -61,28 +61,36 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Name'),
-          content: TextField(
-            controller: _nameController,
-            decoration: InputDecoration(hintText: "Enter new name"),
+          title: Text('Edit Name', style: h2StyleB,),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: TextField(
+              controller: _nameController,
+              decoration: InputDecoration(hintText: "Enter new name"),
+            ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () async {
-                String newName = _nameController.text;
-                await FirestoreService().updateUserName(newName);
-                setState(() {
-                  userName = newName;
-                });
-                Navigator.of(context).pop();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  onPressed: () async {
+                    String newName = _nameController.text;
+                    await FirestoreService().updateUserName(newName);
+                    setState(() {
+                      userName = newName;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -95,28 +103,36 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Email'),
-          content: TextField(
-            controller: _mailController,
-            decoration: InputDecoration(hintText: "Enter new email"),
+          title: Text('Edit Email', style: h2StyleB,),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: TextField(
+              controller: _mailController,
+              decoration: InputDecoration(hintText: "Enter new email"),
+            ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () async {
-                String newEmail = _mailController.text;
-                await FirestoreService().updateUserEmail(newEmail);
-                setState(() {
-                  userMail = newEmail;
-                });
-                Navigator.of(context).pop();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  onPressed: () async {
+                    String newEmail = _mailController.text;
+                    await FirestoreService().updateUserEmail(newEmail);
+                    setState(() {
+                      userMail = newEmail;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -129,28 +145,36 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Phone Number'),
-          content: TextField(
-            controller: _phoneController,
-            decoration: InputDecoration(hintText: "Enter new phone number"),
+          title: Text('Edit Phone Number', style: h2StyleB,),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: TextField(
+              controller: _phoneController,
+              decoration: InputDecoration(hintText: "Enter new phone number"),
+            ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () async {
-                String newPhone = _phoneController.text;
-                await FirestoreService().updateUserPhone(newPhone);
-                setState(() {
-                  userPhone = newPhone;
-                });
-                Navigator.of(context).pop();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  onPressed: () async {
+                    String newPhone = _phoneController.text;
+                    await FirestoreService().updateUserPhone(newPhone);
+                    setState(() {
+                      userPhone = newPhone;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -299,14 +323,14 @@ class _EditprofilePageState extends State<EditprofilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'User Password',
+                    'Reset Password',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15.0,
                         fontWeight: FontWeight.w500),
                   ),
                   IconButton(
-                    icon: Icon(Icons.edit, color: Colors.white),
+                    icon: Icon(Icons.lock, color: Colors.white),
                     onPressed: _showEditPhoneDialog,
                   ),
                 ],

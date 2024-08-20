@@ -23,7 +23,6 @@ class _ProfilePageState extends State<ProfilePage>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool animationComplete = false;
-  double buttonOpacity = 0.0;
   double containerOpacity = 0.0;
 
   @override
@@ -45,7 +44,6 @@ class _ProfilePageState extends State<ProfilePage>
     // Start the animation after a delay
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
-        buttonOpacity = 1.0;
         containerOpacity = 1.0;
       });
       _controller.forward();
