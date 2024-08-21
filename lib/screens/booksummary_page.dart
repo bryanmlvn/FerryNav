@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/user_firestore.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:intl/intl.dart';
+
+String timeFrom = '10.30';
+String timeDestination = '15.30';
+String duration = "±5h 15m";
 
 class BookSummaryPage extends StatefulWidget {
   static const String id = 'booksummary_page';
@@ -63,11 +68,21 @@ class BookSummaryPageState extends State<BookSummaryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp. ',
+      decimalDigits: 0,
+    ).format(int.parse(widget.numberOfPassenger ?? '0') * 525000);
+    final formattedInsurance = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp. ',
+      decimalDigits: 0,
+    ).format(int.parse(widget.numberOfPassenger ?? '0') * 10000);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Ticket Details",
+          "Book Summary",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: appBarColor,
@@ -125,9 +140,67 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                               style: h2Style.copyWith(color: Color(0xFF06305A)),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              '${widget.cityFrom} - ${widget.cityDestination}',
-                              style: h4Style,
+                            Row(
+                              children: <Widget>[
+                                // City From on the left
+                                Text(
+                                  "${widget.cityFrom}",
+                                  style: h4Style,
+                                ),
+
+                                // Time From
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Text(
+                                    timeFrom,
+                                    style: desc1Style(Colors.black),
+                                  ),
+                                ),
+
+                                // Expanded to fill space and align custom arrow icon and duration in the center
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      // Line representing the arrow's length
+                                      Expanded(
+                                        child: Container(
+                                          height: 2.0, // Thickness of the line
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      // Arrow Icon
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: Icon(
+                                          Icons.arrow_forward,
+                                          size: 20.0,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 2.0,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Text(
+                                    timeDestination,
+                                    style: desc1Style(Colors.black),
+                                  ),
+                                ),
+                                Text(
+                                  "${widget.cityDestination}",
+                                  style: h4Style,
+                                ),
+                              ],
                             ),
                             Text(
                               formatSeatNumbers(widget.selectedSeats),
@@ -137,10 +210,6 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                               '${widget.date}',
                               style: desc1Style(Colors.black),
                             ),
-                            Text(
-                              "10.30 BTH -> TBH 15.15 ( SKIP DULU RIBET)",
-                              style: desc1Style(Colors.black),
-                            )
                           ],
                         ),
                       ),
@@ -188,8 +257,26 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                               "Price Details",
                               style: h2Style.copyWith(color: Color(0xFF06305A)),
                             ),
-                            SizedBox(height: 4),
-                            Text("INI KERJAAN NEXT YA UDAH MAGER")
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "FerryNav Ticket(x${widget.numberOfPassenger})",
+                                ),
+                                Text(formattedPrice)
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Travel Insurance",
+                                  style: desc1Style(Colors.black),
+                                ),
+                                Text(formattedInsurance),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -198,6 +285,78 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                 ),
               ),
             ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0), // Margin from the body
+        child: Container(
+          decoration: BoxDecoration(
+            color: containerColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20.0), // Adjust radius as needed
+              topRight: Radius.circular(20.0), // Adjust radius as needed
+            ),
+          ),
+          height: MediaQuery.of(context).size.height *
+              0.165, // Adjust height as needed
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment
+                .center, // Center the Row's children vertically
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    20, 0, 20, 10), // Adjust padding as needed
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Center the Column's children vertically
+                  children: <Widget>[
+                    Text(
+                      'Total Price',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black, // Adjust as needed
+                      ),
+                    ),
+                    Text(
+                      formattedPrice,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0), // Horizontal padding for button
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        appBarColor, // Button color (formerly primary)
+                    foregroundColor:
+                        containerColor, // Text color (formerly onPrimary)
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    minimumSize:
+                        const Size(150, 40), // Set minimum size for the button
+                  ),
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
