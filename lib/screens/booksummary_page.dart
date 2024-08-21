@@ -68,6 +68,10 @@ class BookSummaryPageState extends State<BookSummaryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cityFrom = widget.cityFrom ?? '';
+    final cityDestination = widget.cityDestination ?? '';
+    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -255,8 +259,11 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                                   "FerryNav Ticket(x${widget.numberOfPassenger})",
                                 ),
                                 Text(
-                                  calculatePrice(int.parse(
-                                      widget.numberOfPassenger ?? '0')),
+                                  calculatePrice(
+                                    cityFrom,
+                                    cityDestination,
+                                    numberOfPassenger,
+                                  ),
                                 )
                               ],
                             ),
@@ -313,7 +320,10 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                     ),
                     Text(
                       calculatePrice(
-                          int.parse(widget.numberOfPassenger ?? '0')),
+                        cityFrom,
+                        cityDestination,
+                        numberOfPassenger,
+                      ),
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.deepOrange,

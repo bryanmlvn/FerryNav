@@ -51,6 +51,10 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cityFrom = widget.cityFrom ?? '';
+    final cityDestination = widget.cityDestination ?? '';
+    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -296,7 +300,10 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                     ),
                     Text(
                       calculatePrice(
-                          int.parse(widget.numberOfPassenger ?? '0')),
+                        cityFrom,
+                        cityDestination,
+                        numberOfPassenger,
+                      ),
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.deepOrange,
@@ -340,24 +347,3 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     );
   }
 }
-
-// Row(
-// mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// children: <Widget>[
-// Text(
-// '${widget.cityFrom}',
-// style: h1Style,
-// textAlign: TextAlign.left,
-// ),
-// Text(
-// '-',
-// style: h1Style,
-// textAlign: TextAlign.left,
-// ),
-// Text(
-// '${widget.cityDestination}',
-// style: h1Style,
-// textAlign: TextAlign.left,
-// ),
-// ],
-// ),

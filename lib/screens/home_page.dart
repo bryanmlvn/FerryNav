@@ -37,40 +37,26 @@ class _HomePageState extends State<HomePage>
 
   String? _selectedDeparture;
   final List<String> _departure = [
-    'Select Departure Port',
     'Batam',
-    'Durai',
-    'Hidayat Baru',
-    'Kuala Gaung',
     'Moro',
-    'Pelangairan',
-    'Pulau Burung',
+    'Durai',
     'Sei Guntung',
-    'Sembuang',
-    'Sungai Piring',
-    'Teluk Lanjut',
+    'Pulau Burung',
     'Tembilahan',
   ];
 
   String? _selectedArrival;
   final List<String> _arrival = [
-    'Select Arrival Port',
     'Batam',
-    'Durai',
-    'Hidayat Baru',
-    'Kuala Gaung',
     'Moro',
-    'Pelangairan',
-    'Pulau Burung',
+    'Durai',
     'Sei Guntung',
-    'Sembuang',
-    'Sungai Piring',
-    'Teluk Lanjut',
+    'Pulau Burung',
     'Tembilahan',
   ];
 
   String? _selectedSeat;
-  final List<String> _seat = ['Select Seat', '1', '2', '3', '4', '5'];
+  final List<String> _seat = ['1', '2', '3', '4', '5'];
 
   DateTime? _selectedDate;
 
@@ -84,9 +70,9 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     // Set the initial values
-    _selectedDeparture = _departure[0];
-    _selectedArrival = _arrival[0];
-    _selectedSeat = _seat[0];
+    _selectedDeparture = null;
+    _selectedArrival = null;
+    _selectedSeat = null;
 
     // Initialize AnimationController
     _controller = AnimationController(
@@ -134,6 +120,29 @@ class _HomePageState extends State<HomePage>
   }
 
   void _search() async {
+    // Validate that all fields are selected
+    if (_selectedDeparture == null || _selectedArrival == null || _selectedSeat == null || _selectedDate == null) {
+      // Show an alert dialog if any field is not selected
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Incomplete Information'),
+            content: Text('Please select all options and a date to proceed.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return; // Do not proceed if validation fails
+    }
+
     // Get the current user
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -142,12 +151,10 @@ class _HomePageState extends State<HomePage>
       String email = user.email ?? '';
 
       // Collect selected data
-      String departurePort = _selectedDeparture ?? '';
-      String arrivalPort = _selectedArrival ?? '';
-      String seatNumber = _selectedSeat ?? '';
-      String departureDate = _selectedDate != null
-          ? _selectedDate!.toLocal().toString().split(' ')[0]
-          : '';
+      String departurePort = _selectedDeparture!;
+      String arrivalPort = _selectedArrival!;
+      String seatNumber = _selectedSeat!;
+      String departureDate = _selectedDate!.toLocal().toString().split(' ')[0];
 
       // Update Firebase Database
       FirebaseFirestore.instance.collection('bookings').add({
@@ -164,12 +171,13 @@ class _HomePageState extends State<HomePage>
       });
 
       // Navigate to Ticket Details page after updating Firebase
-      Navigator.pushNamed(context, TicketDetailsPage.id);
+      navigateToDetails(context);
     } else {
       print("No user is logged in.");
       // Handle the case where no user is logged in (optional)
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -256,17 +264,15 @@ class _HomePageState extends State<HomePage>
                             5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedDeparture,
+                      hint: Text('Select Departure Port'),
                       onChanged: (String? newValue) {
-                        if (newValue != _departure[0]) {
-                          // Only update state if the new value is not the first item
+                        if (newValue != null) {
                           setState(() {
                             _selectedDeparture = newValue;
                           });
                         }
                       },
-                      items: _departure
-                          .sublist(1)
-                          .map<DropdownMenuItem<String>>((String location) {
+                      items: _departure.map<DropdownMenuItem<String>>((String location) {
                         return DropdownMenuItem<String>(
                           value: location,
                           child: Text(
@@ -276,38 +282,29 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                         );
-                      }).toList()
-                        ..insert(
-                            0,
-                            DropdownMenuItem<String>(
-                              value: _departure[0],
-                              child: Text(
-                                _departure[0], // Display the first item
-                                style: TextStyle(
-                                  color: Colors
-                                      .grey, // Color for non-selectable item
-                                ),
-                              ),
-                            )),
+                      }).toList(),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -317,6 +314,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       isExpanded: true, // Make the dropdown menu full width
                     ),
+
 
                     SizedBox(
                       height: 15.0,
@@ -333,17 +331,13 @@ class _HomePageState extends State<HomePage>
                             5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedArrival,
+                      hint: Text('Select Arrival Port'),
                       onChanged: (String? newValue) {
-                        if (newValue != _arrival[0]) {
-                          // Only update state if the new value is not the first item
-                          setState(() {
-                            _selectedArrival = newValue;
-                          });
-                        }
+                        setState(() {
+                          _selectedArrival = newValue;
+                        });
                       },
-                      items: _arrival
-                          .sublist(1)
-                          .map<DropdownMenuItem<String>>((String location) {
+                      items: _arrival.map<DropdownMenuItem<String>>((String location) {
                         return DropdownMenuItem<String>(
                           value: location,
                           child: Text(
@@ -353,19 +347,7 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                         );
-                      }).toList()
-                        ..insert(
-                            0,
-                            DropdownMenuItem<String>(
-                              value: _arrival[0],
-                              child: Text(
-                                _arrival[0], // Display the first item
-                                style: TextStyle(
-                                  color: Colors
-                                      .grey, // Color for non-selectable item
-                                ),
-                              ),
-                            )),
+                      }).toList(),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
@@ -398,6 +380,7 @@ class _HomePageState extends State<HomePage>
                     SizedBox(
                       height: 15.0,
                     ),
+
                     Text(
                       '  Departure Date',
                       style: TextStyle(
@@ -444,6 +427,7 @@ class _HomePageState extends State<HomePage>
                     SizedBox(
                       height: 15.0,
                     ),
+
                     Text(
                       '  Number of Passanger',
                       style: TextStyle(
@@ -455,18 +439,14 @@ class _HomePageState extends State<HomePage>
                         height:
                             5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
-                      value: _selectedSeat,
+                      value: _selectedSeat, // Set the selected value or null if none is selected
+                      hint: Text('Number of Passengers'),
                       onChanged: (String? newValue) {
-                        if (newValue != _seat[0]) {
-                          // Only update state if the new value is not the first item
-                          setState(() {
-                            _selectedSeat = newValue;
-                          });
-                        }
+                        setState(() {
+                          _selectedSeat = newValue; // Update the selected seat when changed
+                        });
                       },
-                      items: _seat
-                          .sublist(1)
-                          .map<DropdownMenuItem<String>>((String seat) {
+                      items: _seat.map<DropdownMenuItem<String>>((String seat) {
                         return DropdownMenuItem<String>(
                           value: seat,
                           child: Text(
@@ -476,38 +456,29 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                         );
-                      }).toList()
-                        ..insert(
-                            0,
-                            DropdownMenuItem<String>(
-                              value: _seat[0],
-                              child: Text(
-                                _seat[0], // Display the first item
-                                style: TextStyle(
-                                  color: Colors
-                                      .grey, // Color for non-selectable item
-                                ),
-                              ),
-                            )),
+                      }).toList(),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white, // Dropdown background color
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: containerColor,
-                              width: 3.0), // Border color and width
+                            color: containerColor,
+                            width: 3.0, // Border color and width
+                          ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -517,19 +488,19 @@ class _HomePageState extends State<HomePage>
                       ),
                       isExpanded: true, // Make the dropdown menu full width
                     ),
+
                     SizedBox(
                       height: 20.0,
                     ),
+
                     AnimatedOpacity(
                       opacity: buttonOpacity,
-                      duration: Duration(
-                          milliseconds: 500), // Set duration to 0.5 seconds
+                      duration: Duration(milliseconds: 500), // Set duration to 0.5 seconds
                       child: RoundedButton(
                         title: 'Search',
                         colour: Color(0xFF219EBC),
                         onPressed: () {
-                          _search;
-                          navigateToDetails(context);
+                          _search(); // Call the _search method with parentheses
                         },
                       ),
                     ),
