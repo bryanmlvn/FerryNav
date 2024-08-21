@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/user_firestore.dart';
 import 'package:ferrynav/styles/style.dart';
-import 'package:intl/intl.dart';
+import 'package:ferrynav/business_logic/logic.dart';
 
 String timeFrom = '10.30';
 String timeDestination = '15.30';
@@ -68,16 +68,6 @@ class BookSummaryPageState extends State<BookSummaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final formattedPrice = NumberFormat.currency(
-      locale: 'id',
-      symbol: 'Rp. ',
-      decimalDigits: 0,
-    ).format(int.parse(widget.numberOfPassenger ?? '0') * 525000);
-    final formattedInsurance = NumberFormat.currency(
-      locale: 'id',
-      symbol: 'Rp. ',
-      decimalDigits: 0,
-    ).format(int.parse(widget.numberOfPassenger ?? '0') * 10000);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -264,7 +254,10 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                                 Text(
                                   "FerryNav Ticket(x${widget.numberOfPassenger})",
                                 ),
-                                Text(formattedPrice)
+                                Text(
+                                  calculatePrice(int.parse(
+                                      widget.numberOfPassenger ?? '0')),
+                                )
                               ],
                             ),
                             Row(
@@ -274,7 +267,8 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                                   "Travel Insurance",
                                   style: desc1Style(Colors.black),
                                 ),
-                                Text(formattedInsurance),
+                                Text(calculatePrice(int.parse(
+                                    widget.numberOfPassenger ?? '0'))),
                               ],
                             ),
                           ],
@@ -318,7 +312,8 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                       ),
                     ),
                     Text(
-                      formattedPrice,
+                      calculatePrice(
+                          int.parse(widget.numberOfPassenger ?? '0')),
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.deepOrange,

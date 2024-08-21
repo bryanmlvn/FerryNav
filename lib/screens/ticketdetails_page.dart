@@ -2,6 +2,7 @@ import 'package:ferrynav/screens/seat_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:ferrynav/business_logic/logic.dart';
 import 'package:intl/intl.dart'; //untuk perhitungan
 
 // String cityFrom = "City 1";
@@ -51,13 +52,6 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // perhitungan harga
-    final formattedPrice = NumberFormat.currency(
-      locale: 'id',
-      symbol: 'Rp. ',
-      decimalDigits: 0,
-    ).format(int.parse(widget.numberOfPassenger ?? '0') * 525000);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -302,7 +296,8 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                       ),
                     ),
                     Text(
-                      formattedPrice,
+                      calculatePrice(
+                          int.parse(widget.numberOfPassenger ?? '0')),
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.deepOrange,
