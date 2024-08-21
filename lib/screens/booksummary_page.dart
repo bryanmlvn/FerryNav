@@ -267,7 +267,7 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                                   "Travel Insurance",
                                   style: desc1Style(Colors.black),
                                 ),
-                                Text(calculatePrice(int.parse(
+                                Text(calculateInsurance(int.parse(
                                     widget.numberOfPassenger ?? '0'))),
                               ],
                             ),

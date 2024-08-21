@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/logic.dart';
-import 'package:intl/intl.dart'; //untuk perhitungan
 
 // String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
