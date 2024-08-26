@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/user_firestore.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/logic.dart';
+import 'package:unofficial_midtrans_sdk/unofficial_midtrans_sdk.dart';
+import 'package:uuid/uuid.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 String timeFrom = '10.30';
 String timeDestination = '15.30';
@@ -28,6 +31,11 @@ class BookSummaryPage extends StatefulWidget {
 }
 
 class BookSummaryPageState extends State<BookSummaryPage> {
+  final midtrans = MidtransSDK(
+    apikey: 'SB-Mid-server-KEXEZM6ynCF5Ru5tLg6pBuzA',
+    isProduction: false,
+  );
+
   String? userName;
   String? userPhone;
   bool isLoading = true;
@@ -64,6 +72,51 @@ class BookSummaryPageState extends State<BookSummaryPage> {
       userPhone = phone;
       isLoading = false;
     });
+  }
+
+  //makePayment
+  Future<void> launchUrlInBrowser(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void makePayment(MidtransSDK midtrans, String cityFrom, String cityDestination, int numberOfPassenger) async {
+    var uuid = Uuid();
+    String orderId = uuid.v4(); // Generate a unique order ID
+
+    // Assume calculatePrice returns a formatted String like 'Rp. 110.000'
+    String priceString = calculatePrice(cityFrom, cityDestination, numberOfPassenger);
+
+    // Remove 'Rp.' and any commas, then parse to int
+    int calculatedPrice = int.parse(
+      priceString.replaceAll(RegExp(r'[^\d]'), ''), // Removes all non-digit characters
+    );
+
+    final response = await midtrans.pay({
+      'transaction_details': {
+        'order_id': orderId,
+        'gross_amount': calculatedPrice, // Pass the parsed integer
+      },
+    });
+
+    if (response['redirect_url'] != null) {
+      final redirectUrl = response['redirect_url'];
+      print('Redirect to: $redirectUrl');
+
+      // Launch URL in the user's default browser
+      try {
+        await launchUrlInBrowser(redirectUrl);
+      } catch (e) {
+        print('Could not launch $redirectUrl: $e');
+      }
+    } else {
+      // Handle the error or response accordingly
+      print('Payment failed: ${response['status_message']}');
+    }
   }
 
   @override
@@ -337,17 +390,20 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16.0), // Horizontal padding for button
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final cityFrom = widget.cityFrom ?? '';
+                    final cityDestination = widget.cityDestination ?? '';
+                    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+
+                    makePayment(midtrans, cityFrom, cityDestination, numberOfPassenger);
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        appBarColor, // Button color (formerly primary)
-                    foregroundColor:
-                        containerColor, // Text color (formerly onPrimary)
+                    backgroundColor: appBarColor, // Button color (formerly primary)
+                    foregroundColor: containerColor, // Text color (formerly onPrimary)
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    minimumSize:
-                        const Size(150, 40), // Set minimum size for the button
+                    minimumSize: const Size(150, 40), // Set minimum size for the button
                   ),
                   child: const Text(
                     'Continue',
@@ -357,6 +413,7 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                     ),
                   ),
                 ),
+
               ),
             ],
           ),
