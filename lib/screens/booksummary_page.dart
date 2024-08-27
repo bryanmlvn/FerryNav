@@ -4,7 +4,7 @@ import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/logic.dart';
 import 'package:unofficial_midtrans_sdk/unofficial_midtrans_sdk.dart';
 import 'package:uuid/uuid.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ferrynav/screens/webview_page.dart';
 
 String timeFrom = '10.30';
 String timeDestination = '15.30';
@@ -31,6 +31,19 @@ class BookSummaryPage extends StatefulWidget {
 }
 
 class BookSummaryPageState extends State<BookSummaryPage> {
+  void navigateToWebView(BuildContext ctx, String redirectUrl) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return WebviewPage(
+        cityFrom: widget.cityFrom,
+        cityDestination: widget.cityDestination,
+        date: widget.date,
+        numberOfPassenger: widget.numberOfPassenger,
+        selectedSeats: widget.selectedSeats,
+        redirectUrl: redirectUrl,  // Pass the redirectUrl here
+      );
+    }));
+  }
+
   final midtrans = MidtransSDK(
     apikey: 'SB-Mid-server-KEXEZM6ynCF5Ru5tLg6pBuzA',
     isProduction: false,
@@ -75,25 +88,19 @@ class BookSummaryPageState extends State<BookSummaryPage> {
   }
 
   //makePayment
-  Future<void> launchUrlInBrowser(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  void makePayment(MidtransSDK midtrans, String cityFrom, String cityDestination, int numberOfPassenger) async {
+  void makePayment(MidtransSDK midtrans, String cityFrom,
+      String cityDestination, int numberOfPassenger) async {
     var uuid = Uuid();
     String orderId = uuid.v4(); // Generate a unique order ID
 
     // Assume calculatePrice returns a formatted String like 'Rp. 110.000'
-    String priceString = calculatePrice(cityFrom, cityDestination, numberOfPassenger);
+    String priceString = calculatePrice(
+        cityFrom, cityDestination, numberOfPassenger);
 
     // Remove 'Rp.' and any commas, then parse to int
     int calculatedPrice = int.parse(
-      priceString.replaceAll(RegExp(r'[^\d]'), ''), // Removes all non-digit characters
+      priceString.replaceAll(
+          RegExp(r'[^\d]'), ''), // Removes all non-digit characters
     );
 
     final response = await midtrans.pay({
@@ -107,318 +114,324 @@ class BookSummaryPageState extends State<BookSummaryPage> {
       final redirectUrl = response['redirect_url'];
       print('Redirect to: $redirectUrl');
 
-      // Launch URL in the user's default browser
-      try {
-        await launchUrlInBrowser(redirectUrl);
-      } catch (e) {
-        print('Could not launch $redirectUrl: $e');
-      }
-    } else {
-      // Handle the error or response accordingly
-      print('Payment failed: ${response['status_message']}');
+      // Navigate to the WebView after getting the redirect URL
+      navigateToWebView(context, redirectUrl);
     }
   }
 
+
   @override
-  Widget build(BuildContext context) {
-    final cityFrom = widget.cityFrom ?? '';
-    final cityDestination = widget.cityDestination ?? '';
-    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+    Widget build(BuildContext context) {
+      final cityFrom = widget.cityFrom ?? '';
+      final cityDestination = widget.cityDestination ?? '';
+      final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ??
+          0;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          "Book Summary",
-          style: TextStyle(color: Colors.white),
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: containerColor,
+          ),
+          title: const Text(
+            "Book Summary",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: appBarColor,
         ),
-        backgroundColor: appBarColor,
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
-                      decoration: commonBoxDecorationStyle(containerColor),
-                      constraints: const BoxConstraints(
-                        minWidth: double.infinity,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Payment Information",
-                              style: h2Style.copyWith(color: Color(0xFF06305A)),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              userName ?? 'Loading...',
-                              style: desc1Style(Colors.black),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              userPhone ?? 'Loading...',
-                              style: desc1Style(Colors.black),
-                            ),
-                          ],
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Payment Information",
+                          style: h2Style.copyWith(color: Color(0xFF06305A)),
                         ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      decoration: commonBoxDecorationStyle(containerColor),
-                      constraints: const BoxConstraints(
-                        minWidth: double.infinity,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Ferry Schedule",
-                              style: h2Style.copyWith(color: Color(0xFF06305A)),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: <Widget>[
-                                // City From on the left
-                                Text(
-                                  "${widget.cityFrom}",
-                                  style: h4Style,
-                                ),
-
-                                // Time From
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    timeFrom,
-                                    style: desc1Style(Colors.black),
-                                  ),
-                                ),
-
-                                // Expanded to fill space and align custom arrow icon and duration in the center
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      // Line representing the arrow's length
-                                      Expanded(
-                                        child: Container(
-                                          height: 2.0, // Thickness of the line
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      // Arrow Icon
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          size: 20.0,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 2.0,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    timeDestination,
-                                    style: desc1Style(Colors.black),
-                                  ),
-                                ),
-                                Text(
-                                  "${widget.cityDestination}",
-                                  style: h4Style,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              formatSeatNumbers(widget.selectedSeats),
-                              style: desc1Style(Colors.black),
-                            ),
-                            Text(
-                              '${widget.date}',
-                              style: desc1Style(Colors.black),
-                            ),
-                          ],
+                        const SizedBox(height: 4),
+                        Text(
+                          userName ?? 'Loading...',
+                          style: desc1Style(Colors.black),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          userPhone ?? 'Loading...',
+                          style: desc1Style(Colors.black),
+                        ),
+                      ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      decoration: commonBoxDecorationStyle(containerColor),
-                      constraints: const BoxConstraints(
-                        minWidth: double.infinity,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Ferry Schedule",
+                          style: h2Style.copyWith(color: Color(0xFF06305A)),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
                           children: <Widget>[
+                            // City From on the left
                             Text(
-                              "Policy",
-                              style: h2Style.copyWith(color: Color(0xFF06305A)),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              "Non-Refundable",
+                              "${widget.cityFrom}",
                               style: h4Style,
                             ),
+
+                            // Time From
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0),
+                              child: Text(
+                                timeFrom,
+                                style: desc1Style(Colors.black),
+                              ),
+                            ),
+
+                            // Expanded to fill space and align custom arrow icon and duration in the center
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  // Line representing the arrow's length
+                                  Expanded(
+                                    child: Container(
+                                      height: 2.0, // Thickness of the line
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  // Arrow Icon
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      size: 20.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      height: 2.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0),
+                              child: Text(
+                                timeDestination,
+                                style: desc1Style(Colors.black),
+                              ),
+                            ),
                             Text(
-                              "Cancellations are not allowed after booking.",
-                              style: desc1Style(Colors.black),
+                              "${widget.cityDestination}",
+                              style: h4Style,
                             ),
                           ],
                         ),
-                      ),
+                        Text(
+                          formatSeatNumbers(widget.selectedSeats),
+                          style: desc1Style(Colors.black),
+                        ),
+                        Text(
+                          '${widget.date}',
+                          style: desc1Style(Colors.black),
+                        ),
+                      ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-                      decoration: commonBoxDecorationStyle(containerColor),
-                      constraints: const BoxConstraints(
-                        minWidth: double.infinity,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Policy",
+                          style: h2Style.copyWith(color: Color(0xFF06305A)),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Non-Refundable",
+                          style: h4Style,
+                        ),
+                        Text(
+                          "Cancellations are not allowed after booking.",
+                          style: desc1Style(Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                  decoration: commonBoxDecorationStyle(containerColor),
+                  constraints: const BoxConstraints(
+                    minWidth: double.infinity,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Price Details",
+                          style: h2Style.copyWith(color: Color(0xFF06305A)),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Price Details",
-                              style: h2Style.copyWith(color: Color(0xFF06305A)),
+                              "FerryNav Ticket(x${widget.numberOfPassenger})",
                             ),
-                            const SizedBox(height: 4),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "FerryNav Ticket(x${widget.numberOfPassenger})",
-                                ),
-                                Text(
-                                  calculatePrice(
-                                    cityFrom,
-                                    cityDestination,
-                                    numberOfPassenger,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Travel Insurance",
-                                  style: desc1Style(Colors.black),
-                                ),
-                                Text(calculateInsurance(int.parse(
-                                    widget.numberOfPassenger ?? '0'))),
-                              ],
-                            ),
+                            Text(
+                              calculatePrice(
+                                cityFrom,
+                                cityDestination,
+                                numberOfPassenger,
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 0.0), // Margin from the body
-        child: Container(
-          decoration: BoxDecoration(
-            color: containerColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0), // Adjust radius as needed
-              topRight: Radius.circular(20.0), // Adjust radius as needed
-            ),
-          ),
-          height: MediaQuery.of(context).size.height *
-              0.165, // Adjust height as needed
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment
-                .center, // Center the Row's children vertically
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, 0, 20, 10), // Adjust padding as needed
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Center the Column's children vertically
-                  children: <Widget>[
-                    Text(
-                      'Total Price',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black, // Adjust as needed
-                      ),
-                    ),
-                    Text(
-                      calculatePrice(
-                        cityFrom,
-                        cityDestination,
-                        numberOfPassenger,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.deepOrange,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0), // Horizontal padding for button
-                child: ElevatedButton(
-                  onPressed: () {
-                    final cityFrom = widget.cityFrom ?? '';
-                    final cityDestination = widget.cityDestination ?? '';
-                    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
-
-                    makePayment(midtrans, cityFrom, cityDestination, numberOfPassenger);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: appBarColor, // Button color (formerly primary)
-                    foregroundColor: containerColor, // Text color (formerly onPrimary)
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    minimumSize: const Size(150, 40), // Set minimum size for the button
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Travel Insurance",
+                              style: desc1Style(Colors.black),
+                            ),
+                            Text(calculateInsurance(int.parse(
+                                widget.numberOfPassenger ?? '0'))),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ),
-
-              ),
-            ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 0.0), // Margin from the body
+          child: Container(
+            decoration: BoxDecoration(
+              color: containerColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0), // Adjust radius as needed
+                topRight: Radius.circular(20.0), // Adjust radius as needed
+              ),
+            ),
+            height: MediaQuery
+                .of(context)
+                .size
+                .height *
+                0.165, // Adjust height as needed
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment
+                  .center, // Center the Row's children vertically
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      20, 0, 20, 10), // Adjust padding as needed
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, // Center the Column's children vertically
+                    children: <Widget>[
+                      Text(
+                        'Total Price',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black, // Adjust as needed
+                        ),
+                      ),
+                      Text(
+                        calculatePrice(
+                          cityFrom,
+                          cityDestination,
+                          numberOfPassenger,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.deepOrange,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0), // Horizontal padding for button
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final cityFrom = widget.cityFrom ?? '';
+                      final cityDestination = widget.cityDestination ?? '';
+                      final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+
+                      // Call makePayment, which will handle the WebView navigation.
+                      makePayment(midtrans, cityFrom, cityDestination, numberOfPassenger);
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: appBarColor,
+                      // Button color (formerly primary)
+                      foregroundColor: containerColor,
+                      // Text color (formerly onPrimary)
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      minimumSize: const Size(
+                          150, 40), // Set minimum size for the button
+                    ),
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
-}
+

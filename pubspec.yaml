@@ -41,6 +41,7 @@ dependencies:
   unofficial_midtrans_sdk: ^1.0.0
   uuid: ^3.0.0
   url_launcher: ^6.0.20
+  webview_flutter: ^4.0.0
 
 
 dev_dependencies:

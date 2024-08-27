@@ -58,6 +58,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: containerColor,
+        ),
         title: const Text(
           "Ticket Details",
           style: TextStyle(color: Colors.white),
