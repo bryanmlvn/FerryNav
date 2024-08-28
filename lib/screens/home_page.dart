@@ -119,10 +119,8 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  void _search() async {
-    // Validate that all fields are selected
+  void _search() {
     if (_selectedDeparture == null || _selectedArrival == null || _selectedSeat == null || _selectedDate == null) {
-      // Show an alert dialog if any field is not selected
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -133,49 +131,17 @@ class _HomePageState extends State<HomePage>
               TextButton(
                 child: Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
               ),
             ],
           );
         },
       );
-      return; // Do not proceed if validation fails
+      return;
     }
 
-    // Get the current user
-    User? user = FirebaseAuth.instance.currentUser;
-
-    // Check if the user is logged in
-    if (user != null) {
-      String email = user.email ?? '';
-
-      // Collect selected data
-      String departurePort = _selectedDeparture!;
-      String arrivalPort = _selectedArrival!;
-      String seatNumber = _selectedSeat!;
-      String departureDate = _selectedDate!.toLocal().toString().split(' ')[0];
-
-      // Update Firebase Database
-      FirebaseFirestore.instance.collection('bookings').add({
-        'email': email, // Add the user's email
-        'departurePort': departurePort,
-        'arrivalPort': arrivalPort,
-        'numberOfPassanger': seatNumber,
-        'departureDate': departureDate,
-        'timestamp': FieldValue.serverTimestamp(), // For record keeping
-      }).then((value) {
-        print("Booking Added");
-      }).catchError((error) {
-        print("Failed to add booking: $error");
-      });
-
-      // Navigate to Ticket Details page after updating Firebase
-      navigateToDetails(context);
-    } else {
-      print("No user is logged in.");
-      // Handle the case where no user is logged in (optional)
-    }
+    navigateToDetails(context);
   }
 
 
@@ -192,7 +158,7 @@ class _HomePageState extends State<HomePage>
               title: Center(
                 child: Row(
                   mainAxisSize:
-                      MainAxisSize.min, // Make the row as small as its children
+                  MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Opacity(
@@ -229,7 +195,7 @@ class _HomePageState extends State<HomePage>
             AnimatedOpacity(
               opacity: containerOpacity,
               duration:
-                  Duration(milliseconds: 500), // Set duration to 0.5 seconds
+              Duration(milliseconds: 500), // Set duration to 0.5 seconds
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 margin: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 20.0),
@@ -261,7 +227,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     SizedBox(
                         height:
-                            5.0), // Add some space between Text and Dropdown
+                        5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedDeparture,
                       hint: Text('Select Departure Port'),
@@ -328,7 +294,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     SizedBox(
                         height:
-                            5.0), // Add some space between Text and Dropdown
+                        5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedArrival,
                       hint: Text('Select Arrival Port'),
@@ -390,7 +356,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     SizedBox(
                         height:
-                            5.0), // Add some space between Text and Dropdown
+                        5.0), // Add some space between Text and Dropdown
                     TextFormField(
                       readOnly: true, // Prevent user from manually editing date
                       onTap: () => _selectDate(context),
@@ -437,7 +403,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     SizedBox(
                         height:
-                            5.0), // Add some space between Text and Dropdown
+                        5.0), // Add some space between Text and Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedSeat, // Set the selected value or null if none is selected
                       hint: Text('Number of Passengers'),
