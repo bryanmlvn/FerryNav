@@ -31,7 +31,7 @@ class BookSummaryPage extends StatefulWidget {
 }
 
 class BookSummaryPageState extends State<BookSummaryPage> {
-  void navigateToWebView(BuildContext ctx, String redirectUrl) {
+  void navigateToWebView(BuildContext ctx, String redirectUrl, String orderId) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
       return WebviewPage(
         cityFrom: widget.cityFrom,
@@ -39,7 +39,8 @@ class BookSummaryPageState extends State<BookSummaryPage> {
         date: widget.date,
         numberOfPassenger: widget.numberOfPassenger,
         selectedSeats: widget.selectedSeats,
-        redirectUrl: redirectUrl,  // Pass the redirectUrl here
+        redirectUrl: redirectUrl,
+        orderId: orderId, // Now orderId is passed correctly
       );
     }));
   }
@@ -93,14 +94,10 @@ class BookSummaryPageState extends State<BookSummaryPage> {
     var uuid = Uuid();
     String orderId = uuid.v4(); // Generate a unique order ID
 
-    // Assume calculatePrice returns a formatted String like 'Rp. 110.000'
-    String priceString = calculatePrice(
-        cityFrom, cityDestination, numberOfPassenger);
+    String priceString = calculatePrice(cityFrom, cityDestination, numberOfPassenger);
 
-    // Remove 'Rp.' and any commas, then parse to int
     int calculatedPrice = int.parse(
-      priceString.replaceAll(
-          RegExp(r'[^\d]'), ''), // Removes all non-digit characters
+      priceString.replaceAll(RegExp(r'[^\d]'), ''), // Removes all non-digit characters
     );
 
     final response = await midtrans.pay({
@@ -114,10 +111,11 @@ class BookSummaryPageState extends State<BookSummaryPage> {
       final redirectUrl = response['redirect_url'];
       print('Redirect to: $redirectUrl');
 
-      // Navigate to the WebView after getting the redirect URL
-      navigateToWebView(context, redirectUrl);
+      // Pass the orderId when calling navigateToWebView
+      navigateToWebView(context, redirectUrl, orderId);
     }
   }
+
 
 
   @override
