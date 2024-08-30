@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
-import 'package:ferrynav/user_firestore.dart';
+import 'package:ferrynav/repository/user_firestore.dart';
 
 class EditprofilePage extends StatefulWidget {
   static const String id = 'editProfile_page';
@@ -61,7 +61,10 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Name', style: h2StyleB,),
+          title: Text(
+            'Edit Name',
+            style: h2StyleB,
+          ),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
@@ -74,13 +77,15 @@ class _EditprofilePageState extends State<EditprofilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  child: Text('Cancel',
+                      style: h3Style.copyWith(color: Colors.red)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  child: Text('Save',
+                      style: h3Style.copyWith(color: Colors.green)),
                   onPressed: () async {
                     String newName = _nameController.text;
                     await FirestoreService().updateUserName(newName);
@@ -103,7 +108,10 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Email', style: h2StyleB,),
+          title: Text(
+            'Edit Email',
+            style: h2StyleB,
+          ),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             child: TextField(
@@ -116,13 +124,15 @@ class _EditprofilePageState extends State<EditprofilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  child: Text('Cancel',
+                      style: h3Style.copyWith(color: Colors.red)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  child: Text('Save',
+                      style: h3Style.copyWith(color: Colors.green)),
                   onPressed: () async {
                     String newEmail = _mailController.text;
                     await FirestoreService().updateUserEmail(newEmail);
@@ -145,7 +155,10 @@ class _EditprofilePageState extends State<EditprofilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Phone Number', style: h2StyleB,),
+          title: Text(
+            'Edit Phone Number',
+            style: h2StyleB,
+          ),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             child: TextField(
@@ -158,13 +171,15 @@ class _EditprofilePageState extends State<EditprofilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  child: Text('Cancel',style: h3Style.copyWith(color: Colors.red)),
+                  child: Text('Cancel',
+                      style: h3Style.copyWith(color: Colors.red)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Save', style: h3Style.copyWith(color: Colors.green)),
+                  child: Text('Save',
+                      style: h3Style.copyWith(color: Colors.green)),
                   onPressed: () async {
                     String newPhone = _phoneController.text;
                     await FirestoreService().updateUserPhone(newPhone);

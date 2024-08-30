@@ -2,7 +2,7 @@ import 'package:ferrynav/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/auth.dart';
-import 'package:ferrynav/user_firestore.dart';
+import 'package:ferrynav/repository/user_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String id = 'register_page';

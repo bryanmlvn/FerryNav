@@ -1,5 +1,5 @@
 import 'package:ferrynav/screens/profile_etc/editProfile_page.dart';
-import 'package:ferrynav/user_firestore.dart';
+import 'package:ferrynav/repository/user_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/screens/profile_etc/aboutUs_page.dart';
@@ -53,7 +53,8 @@ class _ProfilePageState extends State<ProfilePage>
   Future<void> _loadCurrentUserDetails() async {
     FirestoreService firestoreService = FirestoreService();
     String? name = await firestoreService.getCurrentUserName();
-    String? email = await firestoreService.getCurrentUserEmail(); // Assuming you meant to get the email here
+    String? email = await firestoreService
+        .getCurrentUserEmail(); // Assuming you meant to get the email here
     setState(() {
       userName = name;
       userMail = email; // Corrected the variable name
@@ -73,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage>
               title: Center(
                 child: Row(
                   mainAxisSize:
-                  MainAxisSize.min, // Make the row as small as its children
+                      MainAxisSize.min, // Make the row as small as its children
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Opacity(
@@ -139,10 +140,14 @@ class _ProfilePageState extends State<ProfilePage>
                           ),
                         ),
                         Transform.translate(
-                          offset: Offset(0, -13), // Adjust the vertical offset (x, y). Negative y moves the icon up
+                          offset: Offset(0,
+                              -13), // Adjust the vertical offset (x, y). Negative y moves the icon up
                           child: InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditprofilePage()));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditprofilePage()));
                             },
                             child: Icon(
                               Icons.edit,
