@@ -24,7 +24,7 @@ Map<String, int> ticketPrices = {
   'sei guntung-batam': 330000,
   'sei guntung-moro': 220000,
   'sei guntung-durai': 110000,
-  'sei guntung-pulau burung': 220000,
+  'sei guntung-pulau burung': 110000,
   'sei guntung-tembilahan': 330000,
   'pulau burung-batam': 440000,
   'pulau burung-moro': 330000,
