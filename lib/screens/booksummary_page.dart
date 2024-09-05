@@ -59,6 +59,8 @@ class BookSummaryPageState extends State<BookSummaryPage> {
         selectedSeats: widget.selectedSeats ?? [],
         date: widget.date ?? "",
         status: 'pending',
+        from: widget.cityFrom ?? "",
+        destination: widget.cityDestination ?? "",
       );
     }
   }
