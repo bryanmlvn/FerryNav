@@ -5,6 +5,8 @@ import 'package:ferrynav/business_logic/logic.dart';
 import 'package:unofficial_midtrans_sdk/unofficial_midtrans_sdk.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ferrynav/screens/webview_page.dart';
+import 'package:ferrynav/repository/booking_firestore.dart' as booking;
+import 'package:ferrynav/repository/user_firestore.dart' as user;
 
 String timeFrom = '10.30';
 String timeDestination = '15.30';
@@ -43,6 +45,21 @@ class BookSummaryPageState extends State<BookSummaryPage> {
         orderId: orderId, // Now orderId is passed correctly
       );
     }));
+  }
+
+  final user.FirestoreService _userService =
+      user.FirestoreService(); // Instance for user functions
+
+  void _bookingPending() async {
+    String? uid = await _userService.getCurrentUserUID();
+    if (uid != null) {
+      await booking.FirestoreService().addNewBookings(
+        uid: uid,
+        selectedSeats: widget.selectedSeats ?? [],
+        date: widget.date ?? "",
+        status: 'pending',
+      );
+    }
   }
 
   final midtrans = MidtransSDK(
@@ -394,6 +411,7 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                     horizontal: 16.0), // Horizontal padding for button
                 child: ElevatedButton(
                   onPressed: () {
+                    _bookingPending();
                     final cityFrom = widget.cityFrom ?? '';
                     final cityDestination = widget.cityDestination ?? '';
                     final numberOfPassenger =
