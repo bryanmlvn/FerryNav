@@ -2,6 +2,7 @@ import 'package:ferrynav/screens/seat_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:ferrynav/components/rounded_button.dart';
 import 'package:ferrynav/styles/style.dart';
+import 'package:ferrynav/business_logic/duration.dart';
 import 'package:ferrynav/business_logic/logic.dart';
 
 // String cityFrom = "City 1";
@@ -17,6 +18,10 @@ String kodeFerry = "FerryNav 02";
 int seatCapacity = 200;
 
 //REFACTORING (EXTRACT METHOD OR WIDGET)
+String getRouteDuration(String cityFrom, String cityDestination) {
+  String key = '${cityFrom.toLowerCase()}-${cityDestination.toLowerCase()}';
+  return routeDurations[key] ?? 'Duration not available'; // Default message if route is not found
+}
 
 //CODE HERE BROTHAA
 class TicketDetailsPage extends StatefulWidget {
@@ -38,6 +43,10 @@ class TicketDetailsPage extends StatefulWidget {
 }
 
 class _TicketDetailsPageState extends State<TicketDetailsPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
   void navigateToSeatPage(BuildContext ctx) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
       return SeatPage(
@@ -54,6 +63,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     final cityFrom = widget.cityFrom ?? '';
     final cityDestination = widget.cityDestination ?? '';
     final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+    final duration = getRouteDuration(cityFrom, cityDestination);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -189,9 +199,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                             color: Colors
                                 .black, // You can customize the color of the divider
                             thickness:
-                                1, // You can customize the thickness of the divider
+                            1, // You can customize the thickness of the divider
                             height:
-                                20, // You can customize the space between the text and the divider
+                            20, // You can customize the space between the text and the divider
                           ),
                           Text(
                             'Ferry Specifications',
@@ -206,9 +216,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                             color: Colors
                                 .black, // You can customize the color of the divider
                             thickness:
-                                1, // You can customize the thickness of the divider
+                            1, // You can customize the thickness of the divider
                             height:
-                                20, // You can customize the space between the text and the divider
+                            20, // You can customize the space between the text and the divider
                           ),
                           Text(
                             'Facilities',
@@ -325,14 +335,14 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        appBarColor, // Button color (formerly primary)
+                    appBarColor, // Button color (formerly primary)
                     foregroundColor:
-                        containerColor, // Text color (formerly onPrimary)
+                    containerColor, // Text color (formerly onPrimary)
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     minimumSize:
-                        const Size(150, 40), // Set minimum size for the button
+                    const Size(150, 40), // Set minimum size for the button
                   ),
                   child: const Text(
                     'Continue',
