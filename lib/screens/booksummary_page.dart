@@ -114,18 +114,13 @@ class BookSummaryPageState extends State<BookSummaryPage> {
     var uuid = Uuid();
     String orderId = uuid.v4(); // Generate a unique order ID
 
-    String priceString =
-        calculatePrice(cityFrom, cityDestination, numberOfPassenger);
-
-    int calculatedPrice = int.parse(
-      priceString.replaceAll(
-          RegExp(r'[^\d]'), ''), // Removes all non-digit characters
-    );
+    // Use the new method to get the total price as an integer
+    int totalPrice = calculateTotalPriceInt(cityFrom, cityDestination, numberOfPassenger);
 
     final response = await midtrans.pay({
       'transaction_details': {
         'order_id': orderId,
-        'gross_amount': calculatedPrice, // Pass the parsed integer
+        'gross_amount': totalPrice, // Pass the integer value for total price
       },
     });
 
@@ -137,6 +132,7 @@ class BookSummaryPageState extends State<BookSummaryPage> {
       navigateToWebView(context, redirectUrl, orderId);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -395,11 +391,10 @@ class BookSummaryPageState extends State<BookSummaryPage> {
                       ),
                     ),
                     Text(
-                      calculateTotalPrice(
-                        cityFrom,
-                        cityDestination,
-                        numberOfPassenger,
-                      ),
+                      calculateTotalPriceFormatted(
+                          cityFrom,
+                          cityDestination,
+                          numberOfPassenger),
                       style: const TextStyle(
                         fontSize: 20.0,
                         color: Colors.deepOrange,

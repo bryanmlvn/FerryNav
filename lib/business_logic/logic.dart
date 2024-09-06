@@ -62,30 +62,32 @@ String calculateInsurance(int numberOfPassenger) {
   return formattedInsurance;
 }
 
-String calculateTotalPrice(
+//change the calculateTotalPrice into Int, because payment methode need Int
+int calculateTotalPriceInt(
     String cityFrom, String cityDestination, int numberOfPassenger) {
   // Calculate the ticket price using the existing method
-  String ticketPrice =
-      calculatePrice(cityFrom, cityDestination, numberOfPassenger);
+  int ticketPrice = getTicketPrice(cityFrom, cityDestination) * numberOfPassenger;
 
   // Calculate the insurance price using the existing method
-  String insurancePrice = calculateInsurance(numberOfPassenger);
-
-  // Convert both prices back to integers for summation (removing formatting)
-  int totalTicketPrice =
-      int.parse(ticketPrice.replaceAll(RegExp(r'[^0-9]'), ''));
-  int totalInsurancePrice =
-      int.parse(insurancePrice.replaceAll(RegExp(r'[^0-9]'), ''));
+  int totalInsurancePrice = insurancePrice * numberOfPassenger;
 
   // Calculate the total price
-  int totalPrice = totalTicketPrice + totalInsurancePrice;
+  int totalPrice = ticketPrice + totalInsurancePrice;
+
+  return totalPrice; // Return the total price as an integer
+}
 
   // Format the total price as currency
+String calculateTotalPriceFormatted(
+    String cityFrom, String cityDestination, int numberOfPassenger) {
+  int totalPrice = calculateTotalPriceInt(cityFrom, cityDestination, numberOfPassenger);
+
+  // Format the total price as currency for display purposes
   final formattedTotalPrice = NumberFormat.currency(
     locale: 'id',
     symbol: 'Rp. ',
     decimalDigits: 0,
   ).format(totalPrice);
 
-  return formattedTotalPrice;
+  return formattedTotalPrice; // Return the formatted total price as a string
 }
