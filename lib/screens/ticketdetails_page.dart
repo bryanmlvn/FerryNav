@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/duration.dart';
 import 'package:ferrynav/business_logic/logic.dart';
+import 'package:ferrynav/repository/booking_firestore.dart';
+import 'package:intl/intl.dart';
 
 // String cityFrom = "City 1";
 String pelabuhanFrom = "Pelabuhan 1";
@@ -12,7 +14,7 @@ String timeFrom = '10.30';
 String pelabuhanDestination = "Pelabuhan 2";
 String timeDestination = '15.30';
 // String date = "Fri, 99 December 2099";
-int remainingSeat = 999;
+// int remainingSeat = await getAvailableSeatCount();
 String duration = "±5h 15m";
 String kodeFerry = "FerryNav 02";
 int seatCapacity = 200;
@@ -20,7 +22,8 @@ int seatCapacity = 200;
 //REFACTORING (EXTRACT METHOD OR WIDGET)
 String getRouteDuration(String cityFrom, String cityDestination) {
   String key = '${cityFrom.toLowerCase()}-${cityDestination.toLowerCase()}';
-  return routeDurations[key] ?? 'Duration not available'; // Default message if route is not found
+  return routeDurations[key] ??
+      'Duration not available'; // Default message if route is not found
 }
 
 //CODE HERE BROTHAA
@@ -43,10 +46,16 @@ class TicketDetailsPage extends StatefulWidget {
 }
 
 class _TicketDetailsPageState extends State<TicketDetailsPage> {
+  final FirestoreService _firestoreService = FirestoreService();
+  int?
+      remainingSeat; // Declare a state variable to hold the remaining seat count
+
   @override
   void initState() {
     super.initState();
+    fetchAvailableSeats(widget.date ?? "");
   }
+
   void navigateToSeatPage(BuildContext ctx) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
       return SeatPage(
@@ -58,11 +67,26 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     }));
   }
 
+  void fetchAvailableSeats(String formattedDate) async {
+    final DateFormat inputFormatter = DateFormat('EEEE, dd MMM yyyy');
+    final DateTime parsedDate = inputFormatter.parse(formattedDate);
+    final String firestoreDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+
+    int fetchedRemainingSeat = await _firestoreService.getAvailableSeatCount(
+        firestoreDate, widget.cityFrom ?? "", widget.cityDestination ?? "");
+
+    // Update the state with the fetched remaining seat count
+    setState(() {
+      remainingSeat = fetchedRemainingSeat;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final cityFrom = widget.cityFrom ?? '';
     final cityDestination = widget.cityDestination ?? '';
-    final numberOfPassenger = int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
+    final numberOfPassenger =
+        int.tryParse(widget.numberOfPassenger ?? '0') ?? 0;
     final duration = getRouteDuration(cityFrom, cityDestination);
 
     return Scaffold(
@@ -120,7 +144,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                             style: h3Style,
                           ),
                           Text(
-                            '$remainingSeat Remaining seats',
+                            remainingSeat != null
+                                ? '$remainingSeat Remaining seats'
+                                : 'Loading...',
                             style: h3Style,
                           ),
                         ],
@@ -199,9 +225,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                             color: Colors
                                 .black, // You can customize the color of the divider
                             thickness:
-                            1, // You can customize the thickness of the divider
+                                1, // You can customize the thickness of the divider
                             height:
-                            20, // You can customize the space between the text and the divider
+                                20, // You can customize the space between the text and the divider
                           ),
                           Text(
                             'Ferry Specifications',
@@ -216,9 +242,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                             color: Colors
                                 .black, // You can customize the color of the divider
                             thickness:
-                            1, // You can customize the thickness of the divider
+                                1, // You can customize the thickness of the divider
                             height:
-                            20, // You can customize the space between the text and the divider
+                                20, // You can customize the space between the text and the divider
                           ),
                           Text(
                             'Facilities',
@@ -335,14 +361,14 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                    appBarColor, // Button color (formerly primary)
+                        appBarColor, // Button color (formerly primary)
                     foregroundColor:
-                    containerColor, // Text color (formerly onPrimary)
+                        containerColor, // Text color (formerly onPrimary)
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     minimumSize:
-                    const Size(150, 40), // Set minimum size for the button
+                        const Size(150, 40), // Set minimum size for the button
                   ),
                   child: const Text(
                     'Continue',
