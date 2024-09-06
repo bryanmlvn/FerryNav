@@ -3,7 +3,6 @@ import 'package:ferrynav/repository/user_firestore.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/logic.dart';
 import 'package:unofficial_midtrans_sdk/unofficial_midtrans_sdk.dart';
-import 'package:uuid/uuid.dart';
 import 'package:ferrynav/screens/webview_page.dart';
 import 'package:ferrynav/repository/booking_firestore.dart' as booking;
 import 'package:ferrynav/repository/user_firestore.dart' as user;
@@ -111,8 +110,7 @@ class BookSummaryPageState extends State<BookSummaryPage> {
   //makePayment
   void makePayment(MidtransSDK midtrans, String cityFrom,
       String cityDestination, int numberOfPassenger) async {
-    var uuid = Uuid();
-    String orderId = uuid.v4(); // Generate a unique order ID
+    String orderId = booking.FirestoreService().generateBookingId(); // Generate a unique order ID
 
     // Use the new method to get the total price as an integer
     int totalPrice = calculateTotalPriceInt(cityFrom, cityDestination, numberOfPassenger);

@@ -3,7 +3,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:ferrynav/styles/style.dart';
 import 'package:ferrynav/business_logic/payment_status.dart'; // Import the file
 import 'dart:async';
-import 'package:ferrynav/navigation_menu.dart';
+
+import '../navigation_menu.dart';
 
 class WebviewPage extends StatefulWidget {
   static const String id = 'webview_page';
@@ -104,6 +105,7 @@ class _WebviewPageState extends State<WebviewPage> {
       ),
     );
   }
+
 
   @override
   void dispose() {
